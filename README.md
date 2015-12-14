@@ -6,7 +6,7 @@ This starter is fully functional and has good code coverage. It has ZERO PayPal 
 
 Also, this RESTEasy Spring Boot starter integrates to Spring as expected, which means every JAX-RS REST resource that is also a Spring bean will be automatically available.
 
-See the list of issues for any known current limitation and/or pensing issues.
+See the list of issues for any known current limitation and/or pending issues.
 
 ## Features
 * Enable RESTEasy and Spring integration for Spring Boot applications
@@ -24,7 +24,7 @@ Just add the Maven dependency below to your Spring Boot application pom file.<br
 </dependency>
 ```
 
-## Version
+## Releasing plan
 RESTEasy Spring Boot starter is going through final tests, and its first RELEASE version should be available around February 2016.
 
 ## Projects
