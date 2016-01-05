@@ -20,7 +20,7 @@ Just add the Maven dependency below to your Spring Boot application pom file.<br
 <dependency>
 	<groupId>com.paypal.springboot</groupId>
 	<artifactId>spring-boot-starter-resteasy</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 </dependency>
 ```
 
