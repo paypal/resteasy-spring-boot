@@ -34,3 +34,6 @@ A simple Spring Boot application that exposes JAX-RS endpoints as Spring beans u
 
 ### spring-boot-starter-resteasy
 The RESTEasy Spring Boot Starter project
+
+##License
+This project is licensed under the Apache 2 License.
