@@ -1,3 +1,7 @@
+/*
+This class is based off https://github.com/resteasy/Resteasy/blob/3.0.16.Final/jaxrs/resteasy-jaxrs/src/main/java/org/jboss/resteasy/spi/ResteasyDeployment.java.
+A few modifications were made on it.
+*/
 package com.paypal.springboot.resteasy;
 
 import java.util.HashMap;
