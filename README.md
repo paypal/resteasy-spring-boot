@@ -25,7 +25,7 @@ Just add the Maven dependency below to your Spring Boot application pom file.<br
 ```
 
 ## Releasing plan
-RESTEasy Spring Boot starter is going through final tests, and its first RELEASE version should be available around February 2016.
+RESTEasy Spring Boot starter is going through final tests, and its first RELEASE version should be available around March 2016.
 
 ## Projects
 
