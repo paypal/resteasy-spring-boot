@@ -4,3 +4,10 @@ This is a super simple JAX-RS RESTEasy Spring Boot application just to exercise 
 To test it, send a GET request to the endpoint below.
 
 http://localhost:8080/samplei-app/echo/echo
+
+You should receive this as result:
+
+    {
+        "wordId": 1,
+        "wordString": "Lua"
+    }
