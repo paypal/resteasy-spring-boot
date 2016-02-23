@@ -22,9 +22,9 @@ import org.jboss.resteasy.spi.ResteasyProviderFactory;
  * 
  * @author Fabio Carvalho (facarvalho@paypal.com or fabiocarvalho777@gmail.com)
  */
-public class CustomRegistrySyncronousDispatcher extends SynchronousDispatcher {
+public class CustomRegistrySynchronousDispatcher extends SynchronousDispatcher {
 
-	public CustomRegistrySyncronousDispatcher(ResteasyProviderFactory providerFactory, ResourceMethodRegistry registry) {
+	public CustomRegistrySynchronousDispatcher(ResteasyProviderFactory providerFactory, ResourceMethodRegistry registry) {
 		super(providerFactory);
 		this.registry = registry;
 		defaultContextObjects.put(Registry.class, registry);

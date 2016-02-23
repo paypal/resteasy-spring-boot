@@ -51,7 +51,7 @@ public class ResteasySpringBootConfig {
 	/**
 	 * This is a modified version of {@link ResteasyBootstrap}
 	 * 
-	 * @return
+	 * @return a ServletContextListener object that configures and start a ResteasyDeployment
 	 */
 	@Bean
 	public ServletContextListener resteasyBootstrapListener() {
@@ -69,7 +69,7 @@ public class ResteasySpringBootConfig {
 				deployment.setProviderFactory(resteasyProviderFactory);
 				deployment.setRegistry(resourceMethodRegistry);
 
-				SynchronousDispatcher dispatcher = new CustomRegistrySyncronousDispatcher(resteasyProviderFactory, resourceMethodRegistry);
+				SynchronousDispatcher dispatcher = new CustomRegistrySynchronousDispatcher(resteasyProviderFactory, resourceMethodRegistry);
 				dispatcher.getUnwrappedExceptions().addAll(deployment.getUnwrappedExceptions());
 				deployment.setDispatcher(dispatcher);
 
