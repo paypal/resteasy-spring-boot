@@ -38,6 +38,9 @@ A simple Spring Boot application that exposes JAX-RS endpoints as Spring beans u
 ### spring-boot-starter-resteasy
 The RESTEasy Spring Boot Starter project
 
+## Reporting an issue
+Please open an issue in using our [GitHub issues](https://github.com/paypal/resteasy-spring-boot/issues) page
+
 ## Contributing
 You are very welcome to contribute to RESTEasy Spring Boot starter! Read our [Contribution guidelines](./CONTRIBUTING.md).
 
