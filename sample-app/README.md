@@ -1,11 +1,18 @@
 # RESTEasy Spring Boot starter sample application
 
-This is a super simple JAX-RS RESTEasy Spring Boot application just to exercise RESTEasy Spring Boot starter.
-To test it, send a GET request to the endpoint below.
+This is a super simple JAX-RS RESTEasy Spring Boot application just to exercise RESTEasy Spring Boot starter.<br>
 
-http://localhost:8080/samplei-app/echo/echo
+## Starting the application
 
-You should receive this as result:
+Run class `com.test.SampleAppApplication`.
+
+## Teting it
+
+Send a **GET** request to the endpoint below.
+
+[http://localhost:8080/sample-app/echo/echo](http://localhost:8080/sample-app/echo/echo)
+
+You should receive a response message with this payload as result:
 
     {
         "wordId": 1,
