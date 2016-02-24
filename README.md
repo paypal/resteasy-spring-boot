@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/paypal/resteasy-spring-boot.svg?branch=master)](https://travis-ci.org/paypal/resteasy-spring-boot)
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/4d23b74b13c3464b95f1acdb40b35cd7)](https://www.codacy.com/app/fabiocarvalho777/resteasy-spring-boot)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.paypal.springboot/spring-boot-starter-resteasy/badge.svg?style=flat)](http://search.maven.org/#search|ga|1|g:com.paypal.springboot)
 [![License](http://img.shields.io/:license-Apache%202-red.svg)](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
 # RESTEasy Spring Boot Starter
