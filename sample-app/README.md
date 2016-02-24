@@ -1,4 +1,4 @@
-# RESTEasy Spring Boot starter sample application
+# Sample application
 
 This is a super simple JAX-RS RESTEasy Spring Boot application just to exercise RESTEasy Spring Boot starter.<br>
 
