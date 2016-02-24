@@ -34,10 +34,10 @@ RESTEasy Spring Boot starter is going through final tests, and its first RELEASE
 
 ## Projects
 
-### sample-app
+##### sample-app
 A simple Spring Boot application that exposes JAX-RS endpoints as Spring beans using RESTEasy via this RESTEasy Spring Boot starter
 
-### spring-boot-starter-resteasy
+##### spring-boot-starter-resteasy
 The RESTEasy Spring Boot Starter project
 
 ## Reporting an issue
