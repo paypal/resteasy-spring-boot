@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/paypal/resteasy-spring-boot.svg?branch=master)](https://travis-ci.org/paypal/resteasy-spring-boot)
+[![License](http://img.shields.io/:license-Apache%202-red.svg)](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
 # RESTEasy Spring Boot Starter
 
 There was no RESTEasy Spring Boot starter out there, so PayPal team decided to create one and share it with the community.<br>
@@ -34,6 +37,9 @@ A simple Spring Boot application that exposes JAX-RS endpoints as Spring beans u
 
 ### spring-boot-starter-resteasy
 The RESTEasy Spring Boot Starter project
+
+## Contributing
+You are very welcome to contribute to RESTEasy Spring Boot starter! Read our [Contribution guidelines](./CONTRIBUTING.md).
 
 ##License
 This project is licensed under the [Apache 2 License](License.html).
