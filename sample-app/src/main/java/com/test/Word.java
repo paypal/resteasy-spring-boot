@@ -1,7 +1,5 @@
 package com.test;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 /**
  * This class represents a simple POJO that can be serialized/deserialized
  * as JSON or XML. It represents the Word class that is used to invoke this sample

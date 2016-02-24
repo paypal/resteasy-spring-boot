@@ -61,13 +61,13 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
 	 * @return true only if there is at least one JAX-RS class
 	 */
 	private boolean noClasses() {
-		if (applications != null || applications.size() != 0) {
+		if (applications != null && applications.size() != 0) {
 			return false;
 		}
-		if (resources != null || resources.size() != 0) {
+		if (resources != null && resources.size() != 0) {
 			return false;
 		}
-		if (providers != null || providers.size() != 0) {
+		if (providers != null && providers.size() != 0) {
 			return false;
 		}
 

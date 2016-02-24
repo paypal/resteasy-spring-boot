@@ -10,9 +10,4 @@ import javax.ws.rs.core.Application;
  */
 @ApplicationPath("/sample-app/")
 public class JaxrsApplication extends Application {
-
-    public JaxrsApplication() {
-        super();
-    }
-
 }

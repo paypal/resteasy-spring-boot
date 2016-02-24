@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component(ResteasyApplicationBuilder.BEAN_NAME)
 public class ResteasyApplicationBuilder {
 
-	static final String BEAN_NAME = "JaxrsApplicationServletBuilder";
+	public static final String BEAN_NAME = "JaxrsApplicationServletBuilder";
 
 	public ServletRegistrationBean build(String applicationClassName, String path, Set<Class<?>> resources, Set<Class<?>> providers) {
 		Servlet servlet = new HttpServlet30Dispatcher();
@@ -33,7 +33,7 @@ public class ResteasyApplicationBuilder {
 			if (!mapping.startsWith("/"))
 				mapping = "/" + mapping;
 			String prefix = mapping;
-			if (!prefix.equals("/") && prefix.endsWith("/"))
+			if (!"/".equals(prefix) && "/".endsWith(prefix))
 				prefix = prefix.substring(0, prefix.length() - 1);
 			if (mapping.endsWith("/"))
 				mapping += "*";

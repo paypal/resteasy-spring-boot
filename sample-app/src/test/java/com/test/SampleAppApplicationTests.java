@@ -1,7 +1,9 @@
 package com.test;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -12,9 +14,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringApplicationConfiguration(classes = SampleAppApplication.class)
 public class SampleAppApplicationTests {
 
+    @Autowired
+    private Echo echo;
+
     @Test
     public void contextLoads() {
-        // TODO
+        Word word = this.echo.echo();
+        Assert.assertNotNull(word);
     }
 
 }
