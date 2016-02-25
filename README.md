@@ -7,11 +7,9 @@
 
 There was no RESTEasy Spring Boot starter out there, so PayPal team decided to create one and share it with the community.<br>
 
-This starter is fully functional and has good code coverage. It has ZERO PayPal specific code, and can be used normally by any regular Spring Boot application that wants to have REST endpoints chosing RESTEasy as the JAX-RS implementation.
+This Spring Boot starter is fully functional has ZERO PayPal specific code, and can be used normally by any regular Spring Boot application that wants to have REST endpoints chosing RESTEasy as the JAX-RS implementation.
 
-Also, this RESTEasy Spring Boot starter integrates to Spring as expected, which means every JAX-RS REST resource that is also a Spring bean will be automatically available.
-
-See the list of issues for any known current limitation and/or pending issues.
+Also, this RESTEasy Spring Boot starter integrates with Spring as expected, which means every JAX-RS REST resource that is also a Spring bean will be automatically available.
 
 ## Features
 * Enable RESTEasy and Spring integration for Spring Boot applications
@@ -35,13 +33,13 @@ RESTEasy Spring Boot starter is going through final tests, and its first RELEASE
 ## Projects
 
 ##### sample-app
-A simple Spring Boot application that exposes JAX-RS endpoints as Spring beans using RESTEasy via this RESTEasy Spring Boot starter
+A simple Spring Boot application that exposes JAX-RS endpoints as Spring beans using RESTEasy via this RESTEasy Spring Boot starter.
 
 ##### spring-boot-starter-resteasy
-The RESTEasy Spring Boot Starter project
+The RESTEasy Spring Boot Starter project.
 
 ## Reporting an issue
-Please open an issue in using our [GitHub issues](https://github.com/paypal/resteasy-spring-boot/issues) page
+Please open an issue using our [GitHub issues](https://github.com/paypal/resteasy-spring-boot/issues) page.
 
 ## Contributing
 You are very welcome to contribute to RESTEasy Spring Boot starter! Read our [Contribution guidelines](./CONTRIBUTING.md).
