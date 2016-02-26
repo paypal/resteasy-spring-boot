@@ -19,7 +19,7 @@ When commiting make sure the commit message is describing what is changed and wh
     A more detailed description
 
 ## Communication
-- Send an email to facarvalho@paypal.com.
+Please send an email to facarvalho@paypal.com.
 
 ## More information
-Read more about best practices in [this github guide](https://guides.github.com/activities/contributing-to-open-source/)
+Read more about best practices in [this github guide](https://guides.github.com/activities/contributing-to-open-source/).

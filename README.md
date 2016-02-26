@@ -7,9 +7,9 @@
 
 There was no RESTEasy Spring Boot starter out there, so PayPal team decided to create one and share it with the community.<br>
 
-This Spring Boot starter is fully functional has ZERO PayPal specific code, and can be used normally by any regular Spring Boot application that wants to have REST endpoints chosing RESTEasy as the JAX-RS implementation.
+This Spring Boot starter is fully functional, has ZERO PayPal specific code on it, and can be used normally by any regular Spring Boot application that wants to have REST endpoints and prefers RESTEasy as the JAX-RS implementation.
 
-Also, this RESTEasy Spring Boot starter integrates with Spring as expected, which means every JAX-RS REST resource that is also a Spring bean will be automatically available.
+Also, this RESTEasy Spring Boot starter integrates with Spring as expected, which means every JAX-RS REST resource that is also a Spring bean will be automatically auto-scanned, integrated, and available.
 
 ## Features
 * Enable RESTEasy and Spring integration for Spring Boot applications
@@ -23,12 +23,12 @@ Just add the Maven dependency below to your Spring Boot application pom file.<br
 <dependency>
 	<groupId>com.paypal.springboot</groupId>
 	<artifactId>spring-boot-starter-resteasy</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0-RELEASE</version>
 </dependency>
 ```
 
-## Releasing plan
-RESTEasy Spring Boot starter is going through final tests, and its first RELEASE version should be available around March 2016.
+## Release notes
+[RESTEasy Spring Boot starter release notes](./RELEASE_NOTES.md).
 
 ## Projects
 
@@ -43,6 +43,9 @@ Please open an issue using our [GitHub issues](https://github.com/paypal/resteas
 
 ## Contributing
 You are very welcome to contribute to RESTEasy Spring Boot starter! Read our [Contribution guidelines](./CONTRIBUTING.md).
+
+## Contacting us
+To contact us, please send an email to facarvalho@paypal.com.
 
 ##License
 This project is licensed under the [Apache 2 License](License.html).
