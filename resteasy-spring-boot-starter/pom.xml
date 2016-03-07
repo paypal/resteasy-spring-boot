@@ -5,7 +5,7 @@
 
     <groupId>com.paypal.springboot</groupId>
     <artifactId>resteasy-spring-boot-starter</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
 
     <description>A Spring Boot starter for RESTEasy</description>
     <url>https://github.com/paypal/resteasy-spring-boot</url>
