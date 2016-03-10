@@ -22,8 +22,9 @@ Just add the Maven dependency below to your Spring Boot application pom file.<br
 ```
 <dependency>
 	<groupId>com.paypal.springboot</groupId>
-	<artifactId>spring-boot-starter-resteasy</artifactId>
-	<version>1.0.0-RELEASE</version>
+	<artifactId>resteasy-spring-boot-starter</artifactId>
+	<version>2.0.0-RELEASE</version>
+	<scope>runtime</scope>
 </dependency>
 ```
 
