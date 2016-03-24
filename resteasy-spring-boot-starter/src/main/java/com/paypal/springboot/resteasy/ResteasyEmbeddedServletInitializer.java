@@ -36,7 +36,7 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
 	private Set<Class<?>> providers;
 
 	public ResteasyEmbeddedServletInitializer() throws ServletException {
-		findJaxrslasses();
+		findJaxrsClasses();
 	}
 
 	/**
@@ -45,7 +45,7 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
 	 * 
 	 * @throws ServletException
 	 */
-	private void findJaxrslasses() throws ServletException {
+	private void findJaxrsClasses() throws ServletException {
 
 		Reflections reflections = new Reflections(ClasspathHelper.forJavaClassPath(), new SubTypesScanner(), new TypeAnnotationsScanner(),
 				new FilterBuilder().excludePackage(AsynchronousDispatcher.class));
