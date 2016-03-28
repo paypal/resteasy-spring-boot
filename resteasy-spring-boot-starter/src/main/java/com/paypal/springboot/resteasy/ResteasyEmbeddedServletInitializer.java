@@ -1,18 +1,5 @@
 package com.paypal.springboot.resteasy;
 
-import java.io.File;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.*;
-
-import javax.annotation.PostConstruct;
-import javax.servlet.ServletException;
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.Application;
-import javax.ws.rs.ext.Provider;
-
-import com.google.common.collect.Sets;
 import org.apache.commons.io.FilenameUtils;
 import org.jboss.resteasy.core.AsynchronousDispatcher;
 import org.jboss.resteasy.plugins.servlet.ResteasyServletInitializer;
@@ -30,6 +17,17 @@ import org.springframework.beans.factory.config.ConstructorArgumentValues;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.stereotype.Component;
+
+import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.Application;
+import javax.ws.rs.ext.Provider;
+import java.io.File;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 /**
  * This is a Spring version of {@link ResteasyServletInitializer}
@@ -119,7 +117,7 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
         findJaxrsClasses();
 
         if (noClasses()) {
-            logger.debug("No JAX-RS classes have been found");
+            logger.warn("No JAX-RS classes have been found");
             return;
         }
 
