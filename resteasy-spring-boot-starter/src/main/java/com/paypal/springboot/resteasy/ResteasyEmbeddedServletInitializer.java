@@ -33,17 +33,17 @@ import org.springframework.stereotype.Component;
 
 /**
  * This is a Spring version of {@link ResteasyServletInitializer}
- * 
+ *
  * @author Fabio Carvalho (facarvalho@paypal.com or fabiocarvalho777@gmail.com)
  */
 @Component
 public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProcessor {
 
-	private Set<Class<? extends Application>> applications;
-	private Set<Class<?>> resources;
-	private Set<Class<?>> providers;
+    private Set<Class<? extends Application>> applications;
+    private Set<Class<?>> resources;
+    private Set<Class<?>> providers;
 
-	private static final Logger logger = LoggerFactory.getLogger(ResteasyEmbeddedServletInitializer.class);
+    private static final Logger logger = LoggerFactory.getLogger(ResteasyEmbeddedServletInitializer.class);
 
     /**
      * Copy all entries that are a JAR file or a folder
@@ -52,24 +52,24 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
         String fileName;
         boolean isJarFile, isFolder;
 
-        for(URL url : source) {
+        for (URL url : source) {
             fileName = url.getFile();
             isJarFile = FilenameUtils.isExtension(fileName, "jar");
             isFolder = new File(fileName).isDirectory();
 
-            if(isJarFile || isFolder) {
+            if (isJarFile || isFolder) {
                 destiny.add(url);
-            } else if(logger.isDebugEnabled()) {
+            } else if (logger.isDebugEnabled()) {
                 logger.debug("Ignored classpath entry: " + fileName);
             }
         }
     }
 
-	/**
-	 * Scan the Classpath searching for classes of type {@link Application}, or
-	 * classes annotated with {@link Path}, {@link Provider}
-	 */
-	private void findJaxrsClasses() {
+    /**
+     * Scan the Classpath searching for classes of type {@link Application}, or
+     * classes annotated with {@link Path}, {@link Provider}
+     */
+    private void findJaxrsClasses() {
         logger.debug("Finding JAX-RS classes");
 
         Collection<URL> systemPropertyURLs = ClasspathHelper.forJavaClassPath();
@@ -82,86 +82,86 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
 
         logger.debug("Classpath URLs to be scanned: " + classpathURLs);
 
-		Reflections reflections = new Reflections(
+        Reflections reflections = new Reflections(
                 classpathURLs,
                 new SubTypesScanner(),
                 new TypeAnnotationsScanner(),
-				new FilterBuilder().excludePackage(AsynchronousDispatcher.class)
+                new FilterBuilder().excludePackage(AsynchronousDispatcher.class)
         );
 
-		applications = reflections.getSubTypesOf(Application.class);
-		resources = reflections.getTypesAnnotatedWith(Path.class);
-		providers = reflections.getTypesAnnotatedWith(Provider.class);
-	}
+        applications = reflections.getSubTypesOf(Application.class);
+        resources = reflections.getTypesAnnotatedWith(Path.class);
+        providers = reflections.getTypesAnnotatedWith(Provider.class);
+    }
 
-	/**
-	 * Check if any JAX-RS related class was found
-	 * 
-	 * @return true only if there is at least one JAX-RS class
-	 */
-	private boolean noClasses() {
-		if (applications != null && applications.size() != 0) {
-			return false;
-		}
-		if (resources != null && resources.size() != 0) {
-			return false;
-		}
-		if (providers != null && providers.size() != 0) {
-			return false;
-		}
+    /**
+     * Check if any JAX-RS related class was found
+     *
+     * @return true only if there is at least one JAX-RS class
+     */
+    private boolean noClasses() {
+        if (applications != null && applications.size() != 0) {
+            return false;
+        }
+        if (resources != null && resources.size() != 0) {
+            return false;
+        }
+        if (providers != null && providers.size() != 0) {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-		logger.debug("Post process bean factory has been called");
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+        logger.debug("Post process bean factory has been called");
 
-		findJaxrsClasses();
+        findJaxrsClasses();
 
-		if (noClasses()) {
-			logger.debug("No JAX-RS classes have been found");
-			return;
-		}
+        if (noClasses()) {
+            logger.debug("No JAX-RS classes have been found");
+            return;
+        }
 
-		BeanDefinitionRegistry registry = (BeanDefinitionRegistry) beanFactory;
+        BeanDefinitionRegistry registry = (BeanDefinitionRegistry) beanFactory;
 
-		for (Class<? extends Application> applicationClass : applications) {
-			ApplicationPath path = applicationClass.getAnnotation(ApplicationPath.class);
-			if (path == null) {
-				return;
-			}
+        for (Class<? extends Application> applicationClass : applications) {
+            ApplicationPath path = applicationClass.getAnnotation(ApplicationPath.class);
+            if (path == null) {
+                return;
+            }
 
-			logger.debug("registering JAX-RS application class " + applicationClass.getName());
+            logger.debug("registering JAX-RS application class " + applicationClass.getName());
 
-			GenericBeanDefinition applicationServletBean = createApplicationServlet(applicationClass, path.value());
-			registry.registerBeanDefinition(applicationClass.getName(), applicationServletBean);
-		}
+            GenericBeanDefinition applicationServletBean = createApplicationServlet(applicationClass, path.value());
+            registry.registerBeanDefinition(applicationClass.getName(), applicationServletBean);
+        }
 
-	}
+    }
 
-	/**
-	 * Creates a Servlet bean definition for the given JAX-RS application
-	 * 
-	 * @param applicationClass
-	 * @param path
-	 * @return a Servlet bean definition for the given JAX-RS application
-	 */
-	private GenericBeanDefinition createApplicationServlet(Class<? extends Application> applicationClass, String path) {
-		GenericBeanDefinition applicationServletBean = new GenericBeanDefinition();
-		applicationServletBean.setFactoryBeanName(ResteasyApplicationBuilder.BEAN_NAME);
-		applicationServletBean.setFactoryMethodName("build");
+    /**
+     * Creates a Servlet bean definition for the given JAX-RS application
+     *
+     * @param applicationClass
+     * @param path
+     * @return a Servlet bean definition for the given JAX-RS application
+     */
+    private GenericBeanDefinition createApplicationServlet(Class<? extends Application> applicationClass, String path) {
+        GenericBeanDefinition applicationServletBean = new GenericBeanDefinition();
+        applicationServletBean.setFactoryBeanName(ResteasyApplicationBuilder.BEAN_NAME);
+        applicationServletBean.setFactoryMethodName("build");
 
-		ConstructorArgumentValues values = new ConstructorArgumentValues();
-		values.addIndexedArgumentValue(0, applicationClass.getName());
-		values.addIndexedArgumentValue(1, path);
-		values.addIndexedArgumentValue(2, resources);
-		values.addIndexedArgumentValue(3, providers);
-		applicationServletBean.setConstructorArgumentValues(values);
+        ConstructorArgumentValues values = new ConstructorArgumentValues();
+        values.addIndexedArgumentValue(0, applicationClass.getName());
+        values.addIndexedArgumentValue(1, path);
+        values.addIndexedArgumentValue(2, resources);
+        values.addIndexedArgumentValue(3, providers);
+        applicationServletBean.setConstructorArgumentValues(values);
 
-		applicationServletBean.setAutowireCandidate(false);
-		applicationServletBean.setScope("singleton");
+        applicationServletBean.setAutowireCandidate(false);
+        applicationServletBean.setScope("singleton");
 
-		return applicationServletBean;
-	}
+        return applicationServletBean;
+    }
 
 }
