@@ -4,7 +4,9 @@ This is a super simple JAX-RS RESTEasy Spring Boot application just to exercise 
 
 ## Starting the application
 
-Run class `com.test.SampleAppApplication`.
+Run class `com.test.SampleAppApplication` from your IDE, or run the command bellow from the command line.
+
+`mvn spring-boot:run`
 
 ## Teting it
 

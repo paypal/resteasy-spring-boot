@@ -7,7 +7,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.paypal.springboot.resteasy" level="DEBUG"/>
+    <logger name="com.paypal.springboot.resteasy" level="INFO"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT" />
