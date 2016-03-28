@@ -6,6 +6,8 @@ import javax.servlet.Servlet;
 
 import org.jboss.resteasy.plugins.server.servlet.HttpServlet30Dispatcher;
 import org.jboss.resteasy.plugins.server.servlet.ResteasyContextParameters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +19,8 @@ import org.springframework.stereotype.Component;
 public class ResteasyApplicationBuilder {
 
 	public static final String BEAN_NAME = "JaxrsApplicationServletBuilder";
+
+	private static final Logger logger = LoggerFactory.getLogger(ResteasyApplicationBuilder.class);
 
 	public ServletRegistrationBean build(String applicationClassName, String path, Set<Class<?>> resources, Set<Class<?>> providers) {
 		Servlet servlet = new HttpServlet30Dispatcher();
@@ -71,6 +75,8 @@ public class ResteasyApplicationBuilder {
 			}
 			servletRegistrationBean.addInitParameter(ResteasyContextParameters.RESTEASY_SCANNED_PROVIDERS, builder.toString());
 		}
+
+		logger.debug("ServletRegistrationBean has just bean created for JAX-RS class" + applicationClassName);
 
 		return servletRegistrationBean;
 	}

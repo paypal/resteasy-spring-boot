@@ -15,6 +15,8 @@ import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.FilterBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -34,6 +36,8 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
 	private Set<Class<? extends Application>> applications;
 	private Set<Class<?>> resources;
 	private Set<Class<?>> providers;
+
+	private static final Logger logger = LoggerFactory.getLogger(ResteasyEmbeddedServletInitializer.class);
 
 	public ResteasyEmbeddedServletInitializer() throws ServletException {
 		findJaxrsClasses();
@@ -75,7 +79,10 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
 	}
 
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+		logger.debug("Post process bean factory has been called");
+
 		if (noClasses()) {
+			logger.debug("No JAX-RS classes have been found");
 			return;
 		}
 
@@ -87,9 +94,12 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
 				return;
 			}
 
+			logger.debug("registering JAX-RS application class " + applicationClass.getName());
+
 			GenericBeanDefinition applicationServletBean = createApplicationServlet(applicationClass, path.value());
 			registry.registerBeanDefinition(applicationClass.getName(), applicationServletBean);
 		}
+
 	}
 
 	/**
