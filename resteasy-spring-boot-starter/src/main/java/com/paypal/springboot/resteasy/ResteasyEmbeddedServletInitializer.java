@@ -1,13 +1,19 @@
 package com.paypal.springboot.resteasy;
 
-import java.util.Set;
+import java.io.File;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.*;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.ServletException;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.ext.Provider;
 
+import com.google.common.collect.Sets;
+import org.apache.commons.io.FilenameUtils;
 import org.jboss.resteasy.core.AsynchronousDispatcher;
 import org.jboss.resteasy.plugins.servlet.ResteasyServletInitializer;
 import org.reflections.Reflections;
@@ -39,20 +45,49 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
 
 	private static final Logger logger = LoggerFactory.getLogger(ResteasyEmbeddedServletInitializer.class);
 
-	public ResteasyEmbeddedServletInitializer() throws ServletException {
-		findJaxrsClasses();
-	}
+    /**
+     * Copy all entries that are a JAR file or a folder
+     */
+    private void copyValidClasspathEntries(Collection<URL> source, List<URL> destiny) {
+        String fileName;
+        boolean isJarFile, isFolder;
+
+        for(URL url : source) {
+            fileName = url.getFile();
+            isJarFile = FilenameUtils.isExtension(fileName, "jar");
+            isFolder = new File(fileName).isDirectory();
+
+            if(isJarFile || isFolder) {
+                destiny.add(url);
+            } else if(logger.isDebugEnabled()) {
+                logger.debug("Ignored classpath entry: " + fileName);
+            }
+        }
+    }
 
 	/**
 	 * Scan the Classpath searching for classes of type {@link Application}, or
 	 * classes annotated with {@link Path}, {@link Provider}
-	 * 
-	 * @throws ServletException
 	 */
-	private void findJaxrsClasses() throws ServletException {
+	private void findJaxrsClasses() {
+        logger.debug("Finding JAX-RS classes");
 
-		Reflections reflections = new Reflections(ClasspathHelper.forJavaClassPath(), new SubTypesScanner(), new TypeAnnotationsScanner(),
-				new FilterBuilder().excludePackage(AsynchronousDispatcher.class));
+        Collection<URL> systemPropertyURLs = ClasspathHelper.forJavaClassPath();
+        Collection<URL> classLoaderURLs = ClasspathHelper.forClassLoader();
+
+        List<URL> classpathURLs = new ArrayList<URL>();
+
+        copyValidClasspathEntries(systemPropertyURLs, classpathURLs);
+        copyValidClasspathEntries(classLoaderURLs, classpathURLs);
+
+        logger.debug("Classpath URLs to be scanned: " + classpathURLs);
+
+		Reflections reflections = new Reflections(
+                classpathURLs,
+                new SubTypesScanner(),
+                new TypeAnnotationsScanner(),
+				new FilterBuilder().excludePackage(AsynchronousDispatcher.class)
+        );
 
 		applications = reflections.getSubTypesOf(Application.class);
 		resources = reflections.getTypesAnnotatedWith(Path.class);
@@ -80,6 +115,8 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
 
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 		logger.debug("Post process bean factory has been called");
+
+		findJaxrsClasses();
 
 		if (noClasses()) {
 			logger.debug("No JAX-RS classes have been found");
