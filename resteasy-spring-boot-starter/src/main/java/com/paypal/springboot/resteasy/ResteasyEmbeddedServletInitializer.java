@@ -24,10 +24,7 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.ext.Provider;
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This is a Spring version of {@link ResteasyServletInitializer}
@@ -44,19 +41,23 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
     private static final Logger logger = LoggerFactory.getLogger(ResteasyEmbeddedServletInitializer.class);
 
     /**
-     * Copy all entries that are a JAR file or a folder
+     * Copy all entries that are a JAR file or a directory
      */
-    private void copyValidClasspathEntries(Collection<URL> source, List<URL> destiny) {
+    private void copyValidClasspathEntries(Collection<URL> source, Set<URL> destination) {
         String fileName;
-        boolean isJarFile, isFolder;
+        boolean isJarFile, isDirectory;
 
         for (URL url : source) {
+            if(destination.contains(url)) {
+                continue;
+            }
+
             fileName = url.getFile();
             isJarFile = FilenameUtils.isExtension(fileName, "jar");
-            isFolder = new File(fileName).isDirectory();
+            isDirectory = new File(fileName).isDirectory();
 
-            if (isJarFile || isFolder) {
-                destiny.add(url);
+            if (isJarFile || isDirectory) {
+                destination.add(url);
             } else if (logger.isDebugEnabled()) {
                 logger.debug("Ignored classpath entry: " + fileName);
             }
@@ -70,10 +71,10 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
     private void findJaxrsClasses() {
         logger.debug("Finding JAX-RS classes");
 
-        Collection<URL> systemPropertyURLs = ClasspathHelper.forJavaClassPath();
-        Collection<URL> classLoaderURLs = ClasspathHelper.forClassLoader();
+        final Collection<URL> systemPropertyURLs = ClasspathHelper.forJavaClassPath();
+        final Collection<URL> classLoaderURLs = ClasspathHelper.forClassLoader();
 
-        List<URL> classpathURLs = new ArrayList<URL>();
+        Set<URL> classpathURLs = new HashSet<URL>();
 
         copyValidClasspathEntries(systemPropertyURLs, classpathURLs);
         copyValidClasspathEntries(classLoaderURLs, classpathURLs);
