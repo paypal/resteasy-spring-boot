@@ -127,7 +127,7 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
         for (Class<? extends Application> applicationClass : applications) {
             ApplicationPath path = applicationClass.getAnnotation(ApplicationPath.class);
             if (path == null) {
-                return;
+                continue;
             }
 
             logger.debug("registering JAX-RS application class " + applicationClass.getName());
