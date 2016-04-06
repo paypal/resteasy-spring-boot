@@ -21,6 +21,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 /**
  * This is the main class that configures this Resteasy Sring Boot starter
@@ -29,7 +30,7 @@ import org.springframework.context.annotation.Configuration;
  * 
  */
 @Configuration
-@ComponentScan("com.paypal.springboot.resteasy")
+@Import({ResteasyApplicationBuilder.class, ResteasyEmbeddedServletInitializer.class})
 @AutoConfigureAfter(WebMvcAutoConfiguration.class)
 @EnableConfigurationProperties
 public class ResteasySpringBootConfig {
