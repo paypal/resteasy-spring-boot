@@ -45,7 +45,8 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
      */
     private void copyValidClasspathEntries(Collection<URL> source, Set<URL> destination) {
         String fileName;
-        boolean isJarFile, isDirectory;
+        boolean isJarFile;
+        boolean isDirectory;
 
         for (URL url : source) {
             if(destination.contains(url)) {
