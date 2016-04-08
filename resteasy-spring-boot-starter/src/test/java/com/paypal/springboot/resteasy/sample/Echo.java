@@ -1,4 +1,4 @@
-package com.test;
+package com.paypal.springboot.resteasy.sample;
 
 import javax.annotation.security.DenyAll;
 import javax.ws.rs.GET;
@@ -28,10 +28,7 @@ public class Echo {
     @Path("/deny")
     @GET
     public Word deny() {
-        Word word = new Word();
-        word.setWordId(1);
-        word.setWordString("Lua");
-        return word;
+        return null;
     }
 
 }

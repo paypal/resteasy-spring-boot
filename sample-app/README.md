@@ -8,7 +8,7 @@ Run class `com.test.SampleAppApplication` from your IDE, or run the command bell
 
 `mvn spring-boot:run`
 
-## Teting it
+## Testing it
 
 Send a **GET** request to the endpoint below.
 
