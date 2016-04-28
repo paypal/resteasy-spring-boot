@@ -1,16 +1,16 @@
 # Release notes
 
-## 2.0.0-RELEASE (currently under development)
+## 2.0.0-RELEASE
 
 #### Important note
-The starter artifact is being renamed due to [issue 2](https://github.com/paypal/resteasy-spring-boot/issues/2). Because of that a new major version is being released.
+The starter artifact id is being renamed to **resteasy-spring-boot-starter**, due to [issue 2](https://github.com/paypal/resteasy-spring-boot/issues/2).
 
 #### Release date
-To be defined.
+April 27th, 2016.
 
 #### Third-party versions
-- RESTEasy: to be defined 
-- Spring Boot: to be defined
+- RESTEasy: 3.0.16.Final
+- Spring Boot: 1.3.3.RELEASE
 
 #### New features and enhancements
 - [2 - Renaming artifact id due to Spring team request](https://github.com/paypal/resteasy-spring-boot/issues/2)
@@ -24,7 +24,7 @@ To be defined.
 ## 1.0.0-RELEASE
 
 #### Release date
-February 26, 2016.
+February 26th, 2016.
 
 #### Third-party versions
 - RESTEasy: 3.0.16.Final
