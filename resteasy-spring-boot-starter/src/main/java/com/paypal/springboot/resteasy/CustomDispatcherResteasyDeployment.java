@@ -29,6 +29,13 @@ import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
 
 /**
+ * This class will be removed as soon as RESTEasy 3.0.17.Final is released.
+ * See:
+ * https://github.com/resteasy/Resteasy/pull/744
+ * https://issues.jboss.org/browse/RESTEASY-1305
+ *
+ * ------------------------------------------------ 
+ *
  * Ideally, instead the need of this custom class, the original class
  * {@link ResteasyDeployment} should be modified to allow, not just stand-alone,
  * but also embedded Servlet container scenarios.<br>

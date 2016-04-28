@@ -1,9 +1,5 @@
 package com.paypal.springboot.resteasy;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-
 import org.jboss.resteasy.core.Dispatcher;
 import org.jboss.resteasy.core.ResourceMethodRegistry;
 import org.jboss.resteasy.core.SynchronousDispatcher;
@@ -12,13 +8,19 @@ import org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap;
 import org.jboss.resteasy.plugins.spring.SpringBeanProcessor;
 import org.jboss.resteasy.spi.Registry;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 
 /**
  * This is the main class that configures this Resteasy Sring Boot starter
@@ -26,12 +28,13 @@ import org.springframework.context.annotation.Configuration;
  * @author Fabio Carvalho (facarvalho@paypal.com or fabiocarvalho777@gmail.com)
  * 
  */
-// TODO Research if Conditionals annotations need to be added
 @Configuration
-@ComponentScan("com.paypal.springboot.resteasy")
+@Import({ResteasyApplicationBuilder.class, ResteasyEmbeddedServletInitializer.class})
 @AutoConfigureAfter(WebMvcAutoConfiguration.class)
 @EnableConfigurationProperties
 public class ResteasySpringBootConfig {
+
+	private static Logger logger = LoggerFactory.getLogger(ResteasySpringBootConfig.class);
 
 	private static ResteasyProviderFactory resteasyProviderFactory = new ResteasyProviderFactory();
 	private static ResourceMethodRegistry resourceMethodRegistry = new ResourceMethodRegistry(resteasyProviderFactory);
@@ -44,6 +47,8 @@ public class ResteasySpringBootConfig {
 
 		springBeanProcessor.setProviderFactory(resteasyProviderFactory);
 		springBeanProcessor.setRegistry(resourceMethodRegistry);
+
+		logger.debug("SpringBeanProcessor has been created");
 
 		return springBeanProcessor;
 	}
@@ -86,6 +91,9 @@ public class ResteasySpringBootConfig {
 				}
 			}
 		};
+
+		logger.debug("ServletContextListener has been created");
+
 		return servletContextListener;
 	}
 	
