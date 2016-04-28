@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * Unit test place holder
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = SampleAppApplication.class)
+@SpringApplicationConfiguration(classes = Application.class)
 public class SampleAppApplicationTests {
 
     @Autowired
