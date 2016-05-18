@@ -16,7 +16,6 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.ConstructorArgumentValues;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
-import org.springframework.stereotype.Component;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Path;
@@ -31,7 +30,6 @@ import java.util.*;
  *
  * @author Fabio Carvalho (facarvalho@paypal.com or fabiocarvalho777@gmail.com)
  */
-@Component
 public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProcessor {
 
     private Set<Class<? extends Application>> applications;

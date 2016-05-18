@@ -10,6 +10,7 @@ TBD
 - Spring Boot: 1.3.5.RELEASE
 
 #### New features and enhancements
+- [18 - Component annotation removal from ResteasyEmbeddedServletInitializer](https://github.com/paypal/resteasy-spring-boot/issues/18)
 - [17 - Upgrade Sprig Boot to version 1.3.5](https://github.com/paypal/resteasy-spring-boot/issues/17)
 - [16 - Upgrade RESTEasy to version 3.0.17.Final](https://github.com/paypal/resteasy-spring-boot/issues/16)
 - [7 - Remove custom RESTEasy classes as soon as RESTEasy 3.0.17.Final is released](https://github.com/paypal/resteasy-spring-boot/issues/7)
