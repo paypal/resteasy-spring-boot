@@ -3,7 +3,7 @@
 ## 2.0.1-RELEASE
 
 #### Release date
-TBD
+June 9th, 2016.
 
 #### Third-party versions
 - RESTEasy: 3.0.17.Final
