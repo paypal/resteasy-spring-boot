@@ -7,6 +7,7 @@ import org.jboss.resteasy.plugins.server.servlet.ListenerBootstrap;
 import org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap;
 import org.jboss.resteasy.plugins.spring.SpringBeanProcessor;
 import org.jboss.resteasy.spi.Registry;
+import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,19 +63,19 @@ public class ResteasySpringBootConfig {
 	public ServletContextListener resteasyBootstrapListener() {
 		ServletContextListener servletContextListener = new ServletContextListener() {
 
-			protected CustomDispatcherResteasyDeployment deployment;
+			protected ResteasyDeployment deployment;
 
 			public void contextInitialized(ServletContextEvent sce) {
 				ServletContext servletContext = sce.getServletContext();
 
-				ListenerBootstrap config = new CustomListenerBootstrap(servletContext);
+				ListenerBootstrap config = new ListenerBootstrap(servletContext);
 
-				deployment = (CustomDispatcherResteasyDeployment) config.createDeployment();
+				deployment = config.createDeployment();
 
 				deployment.setProviderFactory(resteasyProviderFactory);
 				deployment.setRegistry(resourceMethodRegistry);
 
-				SynchronousDispatcher dispatcher = new CustomRegistrySynchronousDispatcher(resteasyProviderFactory, resourceMethodRegistry);
+				SynchronousDispatcher dispatcher = new SynchronousDispatcher(resteasyProviderFactory, resourceMethodRegistry);
 				dispatcher.getUnwrappedExceptions().addAll(deployment.getUnwrappedExceptions());
 				deployment.setDispatcher(dispatcher);
 

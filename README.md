@@ -16,7 +16,7 @@ Also, this RESTEasy Spring Boot starter integrates with Spring as expected, whic
 * Support Spring Boot application execution from `mvn spring-boot:run`
 * Support JAX-RS providers, resources and sub-resources
 * Support automatic discovery of [JAX-RS Application](https://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Application.html) classes
-* Support automatic discovery of JAX-RS providers and resources Spring bean classes
+* Support automatic discovery of JAX-RS providers and resources Spring beans 
 
 ## Usage
 Just add the Maven dependency below to your Spring Boot application pom file.<br>
@@ -25,7 +25,7 @@ Just add the Maven dependency below to your Spring Boot application pom file.<br
 <dependency>
 	<groupId>com.paypal.springboot</groupId>
 	<artifactId>resteasy-spring-boot-starter</artifactId>
-	<version>2.0.0-RELEASE</version>
+	<version>2.0.1-RELEASE</version>
 	<scope>runtime</scope>
 </dependency>
 ```
@@ -48,7 +48,7 @@ Please open an issue using our [GitHub issues](https://github.com/paypal/resteas
 You are very welcome to contribute to RESTEasy Spring Boot starter! Read our [Contribution guidelines](./CONTRIBUTING.md).
 
 ## Contacting us
-To contact us, please send an email to facarvalho@paypal.com.
+To contact us, please send an email to fabiocarvalho777@gmail.com.
 
 ##License
 This project is licensed under the [Apache 2 License](License.html).
