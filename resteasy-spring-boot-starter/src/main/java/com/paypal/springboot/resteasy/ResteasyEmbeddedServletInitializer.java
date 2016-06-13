@@ -124,33 +124,18 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
         }
     }
 
-    /**
-     * Check if any JAX-RS related class was found
-     *
-     * @return true only if there is at least one JAX-RS class
-     */
-    private boolean noClasses() {
-        if (applications != null && applications.size() != 0) {
-            return false;
-        }
-        if (allResources != null && allResources.size() != 0) {
-            return false;
-        }
-        if (providers != null && providers.size() != 0) {
-            return false;
-        }
-
-        return true;
-    }
-
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
         logger.debug("Post process bean factory has been called");
 
         findJaxrsApplicationClasses();
         findJaxrsResourcesAndProviderClasses(beanFactory);
 
-        if (noClasses()) {
+        if (applications == null || applications.size() == 0) {
             logger.warn("No JAX-RS classes have been found");
+            return;
+        }
+        if (allResources == null || allResources.size() == 0) {
+            logger.warn("No JAX-RS resource Spring beans have been found");
             return;
         }
 
