@@ -25,7 +25,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * This is a Spring version of {@link ResteasyServletInitializer}
+ * This is a Spring version of {@link ResteasyServletInitializer}.
+ * It does not register the servlets though, that is done by {@link ResteasyApplicationBuilder}
+ * It only finds the JAX-RS Application classes (by scanning the classpath), and
+ * the JAX-RS Path and Provider annotated Spring beans, and then register the
+ * Spring bean definitions that represent each servlet registration.
  *
  * @author Fabio Carvalho (facarvalho@paypal.com or fabiocarvalho777@gmail.com)
  */
