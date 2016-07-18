@@ -1,5 +1,24 @@
 # Release notes
 
+## 2.1.0-RELEASE
+
+#### Release date
+TBD
+
+#### Third-party versions
+- RESTEasy: 3.0.17.Final
+- Spring Boot: TBD (hopefully 1.4.0, depending on when it is released)
+
+#### New features and enhancements
+
+1. [22 -  Add configuration to turn OFF scanning for JAX-RS Application sub-classes](https://github.com/paypal/resteasy-spring-boot/issues/22)
+1. [10 -  Support RESTEasy configuration](https://github.com/paypal/resteasy-spring-boot/issues/10)
+1. [20 -  Add documentation](https://github.com/paypal/resteasy-spring-boot/issues/20)
+
+#### Bug fixes
+
+None
+
 ## 2.0.1-RELEASE
 
 #### Release date
