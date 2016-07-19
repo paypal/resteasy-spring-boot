@@ -22,9 +22,9 @@ import java.util.Map;
  * Created by facarvalho on 7/19/16.
  * @author Fabio Carvalho (facarvalho@paypal.com or fabiocarvalho777@gmail.com)
  */
-public class JaxrsAppDefinitionTest {
+public class JaxrsAppRegistrationTest {
 
-    private static final String DEFINITION_PROPERTY = "resteasy.jaxrs.app.definition";
+    private static final String DEFINITION_PROPERTY = "resteasy.jaxrs.app.registration";
     private static final String APP_CLASSES_PROPERTY = "resteasy.jaxrs.app";
 
     @Test
@@ -70,8 +70,8 @@ public class JaxrsAppDefinitionTest {
 
     @Test(expectedExceptions = IllegalArgumentException.class,
             expectedExceptionsMessageRegExp = "Property " + DEFINITION_PROPERTY +
-                    " has not been properly set, value blah is invalid. JAX-RS Application classes definition is being set to AUTO.")
-    public void invalidDefinitionTest() {
+                    " has not been properly set, value blah is invalid. JAX-RS Application classes registration is being set to AUTO.")
+    public void invalidRegistrationTest() {
         ConfigurableEnvironment configurableEnvironmentMock = mock(ConfigurableEnvironment.class);
         when(configurableEnvironmentMock.getProperty(DEFINITION_PROPERTY)).thenReturn("blah");
 

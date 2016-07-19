@@ -31,7 +31,7 @@ import java.util.Set;
 public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProcessor {
 
     private static final String JAXRS_APP_CLASSES_PROPERTY = "resteasy.jaxrs.app";
-    private static final String JAXRS_APP_CLASSES_DEFINITION_PROPERTY = "resteasy.jaxrs.app.definition";
+    private static final String JAXRS_APP_CLASSES_DEFINITION_PROPERTY = "resteasy.jaxrs.app.registration";
 
     private Set<Class<? extends Application>> applications;
     private Set<Class<?>> allResources;
@@ -39,7 +39,7 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
 
     private static final Logger logger = LoggerFactory.getLogger(ResteasyEmbeddedServletInitializer.class);
 
-    private enum JaxrsAppClassesDefinition {
+    private enum JaxrsAppClassesRegistration {
         BEANS, PROPERTY, SCANNING, AUTO
     }
 
@@ -59,7 +59,7 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
      * If not, then scan the classpath searching for JAX-RS applications.
      *
      * There is a way though to force one of the options above, which is by setting property
-     * {@code resteasy.jaxrs.app.definition} via Spring Boot application properties file. The possible valid
+     * {@code resteasy.jaxrs.app.registration} via Spring Boot application properties file. The possible valid
      * values are {@code beans}, {@code property}, {@code scanning} or {@code auto}. If this property is not
      * present, the default value is {@code auto}, which means every approach will be tried in the order and way
      * explained earlier.
@@ -69,9 +69,9 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
     private void findJaxrsApplications(ConfigurableListableBeanFactory beanFactory) {
         logger.info("Finding JAX-RS Application classes");
 
-        JaxrsAppClassesDefinition definition = getJaxrsAppClassesDefinition(beanFactory);
+        JaxrsAppClassesRegistration registration = getJaxrsAppClassesRegistration(beanFactory);
 
-        switch (definition) {
+        switch (registration) {
             case AUTO:
                 applications = findJaxrsApplicationBeans(beanFactory);
                 if(applications == null) applications = findJaxrsApplicationProperty(beanFactory);
@@ -95,25 +95,25 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
         }
     }
 
-    private JaxrsAppClassesDefinition getJaxrsAppClassesDefinition(ConfigurableListableBeanFactory beanFactory) {
+    private JaxrsAppClassesRegistration getJaxrsAppClassesRegistration(ConfigurableListableBeanFactory beanFactory) {
         ConfigurableEnvironment configurableEnvironment = beanFactory.getBean(ConfigurableEnvironment.class);
-        String jaxrsAppClassesDefinition = configurableEnvironment.getProperty(JAXRS_APP_CLASSES_DEFINITION_PROPERTY);
-        JaxrsAppClassesDefinition definition = JaxrsAppClassesDefinition.AUTO;
+        String jaxrsAppClassesRegistration = configurableEnvironment.getProperty(JAXRS_APP_CLASSES_DEFINITION_PROPERTY);
+        JaxrsAppClassesRegistration registration = JaxrsAppClassesRegistration.AUTO;
 
-        if(jaxrsAppClassesDefinition == null) {
-            logger.info("Property {} has not been set, JAX-RS Application classes definition is being set to AUTO", JAXRS_APP_CLASSES_DEFINITION_PROPERTY);
+        if(jaxrsAppClassesRegistration == null) {
+            logger.info("Property {} has not been set, JAX-RS Application classes registration is being set to AUTO", JAXRS_APP_CLASSES_DEFINITION_PROPERTY);
         } else {
-            logger.info("Property {} has been set to {}", JAXRS_APP_CLASSES_DEFINITION_PROPERTY, jaxrsAppClassesDefinition);
+            logger.info("Property {} has been set to {}", JAXRS_APP_CLASSES_DEFINITION_PROPERTY, jaxrsAppClassesRegistration);
             try {
-                definition = JaxrsAppClassesDefinition.valueOf(jaxrsAppClassesDefinition.toUpperCase());
+                registration = JaxrsAppClassesRegistration.valueOf(jaxrsAppClassesRegistration.toUpperCase());
             } catch(IllegalArgumentException ex) {
-                String errorMesage = String.format("Property %s has not been properly set, value %s is invalid. JAX-RS Application classes definition is being set to AUTO.", JAXRS_APP_CLASSES_DEFINITION_PROPERTY, jaxrsAppClassesDefinition);
+                String errorMesage = String.format("Property %s has not been properly set, value %s is invalid. JAX-RS Application classes registration is being set to AUTO.", JAXRS_APP_CLASSES_DEFINITION_PROPERTY, jaxrsAppClassesRegistration);
                 logger.error(errorMesage);
                 throw new IllegalArgumentException(errorMesage, ex);
             }
         }
 
-        return definition;
+        return registration;
     }
 
     /**
