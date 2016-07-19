@@ -15,10 +15,12 @@ Also, this RESTEasy Spring Boot starter integrates with Spring as expected, whic
 * Enable RESTEasy and Spring integration for Spring Boot applications
 * Support Spring Boot application execution from `mvn spring-boot:run`
 * Support JAX-RS providers, resources and sub-resources
-* Support automatic discovery of [JAX-RS Application](https://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Application.html) classes
+* Support automatic discovery of [JAX-RS Application](http://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Application.html) classes as Spring beans, via class-path scanning, or via manual registration
 * Support automatic discovery of JAX-RS providers and resources Spring beans 
 
 ## Usage
+
+#### Adding POM dependency
 Just add the Maven dependency below to your Spring Boot application pom file.<br>
 
 ```
@@ -29,6 +31,26 @@ Just add the Maven dependency below to your Spring Boot application pom file.<br
 	<scope>runtime</scope>
 </dependency>
 ```
+
+#### Registering JAX-RS application classes
+JAX-RS applications are defined via sub-classes of [Application](http://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Application.html). There are three different methods to find and register them:
+
+1. By having them defined as Spring beans.
+2. By setting property `resteasy.jaxrs.app` via Spring Boot application properties file. This property should contain a comma separated list of JAX-RS sub-classes.
+3. Automatically by classpath scanning (looking for `javax.ws.rs.core.Application` sub-classes).
+
+You can define the method you prefer by setting property `resteasy.jaxrs.app.definition` (via Spring Boot configuration file), although you don't have to, in that case the `auto` method is the default. The possible values are:
+
+1. `beans`
+1. `property`
+1. `scanning`
+1. `auto` (default)
+
+The first three values refer respectively to each one of the three methods described earlier. The last one, `auto`, when set (or when property `resteasy.jaxrs.app.definition` is not present), attempts first to find JAX-RS application classes by searching them as Spring beans. If any is found, the search stops, and those are the only JAX-RS applications to be registered. If no JAX-RS application Spring beans are found, then the `property` approach is tried. If still no JAX-RS application classes could be found, then the last method, `scanning`, is attempted. If after that still no JAX-RS application class could be registered, then the Spring Boot application won't be able to serve any request.
+
+#### Registering JAX-RS resources and providers
+Just define them as Spring beans, and they will be automatically registered.
+Notice that JAX-RS resources can be singleton or request scoped, while JAX-RS providers must be singletons.
 
 ## Release notes
 [RESTEasy Spring Boot starter release notes](./RELEASE_NOTES.md).
