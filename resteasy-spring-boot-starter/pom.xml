@@ -9,7 +9,7 @@
 
     <description>A Spring Boot starter for RESTEasy</description>
     <url>https://github.com/paypal/resteasy-spring-boot</url>
-    <name>${project.groupId}:${project.artifactId}</name>
+
     <licenses>
         <license>
             <name>The Apache License, Version 2.0</name>
@@ -108,6 +108,11 @@
             <artifactId>testng</artifactId>
             <version>6.1.1</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>1.10.19</version>
         </dependency>
     </dependencies>
 
