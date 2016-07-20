@@ -15,6 +15,7 @@ TBD
 1. [10 -  Support RESTEasy configuration](https://github.com/paypal/resteasy-spring-boot/issues/10)
 1. [20 -  Add documentation](https://github.com/paypal/resteasy-spring-boot/issues/20)
 1. [25 -  Add Cobertura code coverage](https://github.com/paypal/resteasy-spring-boot/issues/25)
+1. [24 -  Automate Travis CI](https://github.com/paypal/resteasy-spring-boot/issues/24)
 
 #### Bug fixes
 

@@ -14,3 +14,5 @@ before_install:
 after_success:
   # Uploading Cobertura report to Codacy
   - ${HOME}/jpm/bin/codacy-coverage-reporter -l Java -r ./resteasy-spring-boot-starter/target/site/cobertura/coverage.xml --projectToken $CODACY_PROJECT_TOKEN
+  # Deploying SNAPSHOT artifacts to Maven Central
+  - mvn -B -f ./resteasy-spring-boot-starter/pom.xml -s ./resteasy-spring-boot-starter/settings.xml -DskipTests=true -Dcobertura.skip deploy

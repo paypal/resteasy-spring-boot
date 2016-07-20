@@ -231,8 +231,8 @@
                         <regexes>
                             <regex>
                                 <pattern>com.paypal.springboot.resteasy.JaxrsApplicationScanner</pattern>
-                                <branchRate>65</branchRate>
                                 <lineRate>80</lineRate>
+                                <branchRate>65</branchRate>
                             </regex>
                         </regexes>
                     </check>
