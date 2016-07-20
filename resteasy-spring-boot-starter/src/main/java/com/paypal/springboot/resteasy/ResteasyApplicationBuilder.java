@@ -56,7 +56,7 @@ public class ResteasyApplicationBuilder {
 			if (!mapping.startsWith("/"))
 				mapping = "/" + mapping;
 			String prefix = mapping;
-			if (!"/".equals(prefix) && "/".endsWith(prefix))
+			if (!"/".equals(prefix) && prefix.endsWith("/"))
 				prefix = prefix.substring(0, prefix.length() - 1);
 			if (mapping.endsWith("/"))
 				mapping += "*";

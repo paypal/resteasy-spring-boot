@@ -14,6 +14,7 @@ TBD
 1. [22 -  Add configuration to turn OFF scanning for JAX-RS Application sub-classes](https://github.com/paypal/resteasy-spring-boot/issues/22)
 1. [10 -  Support RESTEasy configuration](https://github.com/paypal/resteasy-spring-boot/issues/10)
 1. [20 -  Add documentation](https://github.com/paypal/resteasy-spring-boot/issues/20)
+1. [25 -  Add Cobertura code coverage](https://github.com/paypal/resteasy-spring-boot/issues/25)
 
 #### Bug fixes
 

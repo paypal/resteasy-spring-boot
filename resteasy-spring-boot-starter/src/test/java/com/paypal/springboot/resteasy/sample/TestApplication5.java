@@ -8,6 +8,6 @@ import javax.ws.rs.core.Application;
  *
  * Created by facarvalho on 11/25/15.
  */
-@ApplicationPath("/")
-public class TestApplication4 extends Application {
+@ApplicationPath("myapp5/")
+public class TestApplication5 extends Application {
 }

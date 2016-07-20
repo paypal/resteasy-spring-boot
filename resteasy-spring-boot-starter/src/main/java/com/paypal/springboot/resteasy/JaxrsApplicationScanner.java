@@ -20,13 +20,13 @@ import java.util.Set;
  *
  * @author Fabio Carvalho (facarvalho@paypal.com or fabiocarvalho777@gmail.com)
  */
-abstract class JaxrsApplicationScanner {
+public abstract class JaxrsApplicationScanner {
 
     private static final Logger logger = LoggerFactory.getLogger(JaxrsApplicationScanner.class);
 
     private static Set<Class<? extends Application>> applications;
 
-    static Set<Class<? extends Application>> getApplications() {
+    public static Set<Class<? extends Application>> getApplications() {
         if(applications == null) {
             applications = findJaxrsApplicationClasses();
         }

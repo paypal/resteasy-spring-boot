@@ -4,6 +4,8 @@ import com.paypal.springboot.resteasy.sample.TestApplication1;
 import com.paypal.springboot.resteasy.sample.TestApplication4;
 import com.paypal.springboot.resteasy.sample.TestResource1;
 import static org.mockito.Mockito.*;
+
+import com.paypal.springboot.resteasy.sample.TestResource2;
 import org.mockito.internal.verification.VerificationModeFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -32,7 +34,7 @@ public class JaxrsAppRegistrationTest {
         ConfigurableEnvironment configurableEnvironmentMock = mock(ConfigurableEnvironment.class);
         when(configurableEnvironmentMock.getProperty(DEFINITION_PROPERTY)).thenReturn(null);
 
-        test(configurableEnvironmentMock, 2, 1, 1, 1, 1, 1, 1, 0, 1);
+        test(configurableEnvironmentMock, 2, 1, 1, 1, 0, 1, 1);
     }
 
     @Test
@@ -40,7 +42,7 @@ public class JaxrsAppRegistrationTest {
         ConfigurableEnvironment configurableEnvironmentMock = mock(ConfigurableEnvironment.class);
         when(configurableEnvironmentMock.getProperty(DEFINITION_PROPERTY)).thenReturn("auto");
 
-        test(configurableEnvironmentMock, 2, 1, 1, 1, 1, 1, 1, 0, 1);
+        test(configurableEnvironmentMock, 2, 1, 1, 1, 0, 1, 1);
     }
 
     @Test
@@ -48,7 +50,7 @@ public class JaxrsAppRegistrationTest {
         ConfigurableEnvironment configurableEnvironmentMock = mock(ConfigurableEnvironment.class);
         when(configurableEnvironmentMock.getProperty(DEFINITION_PROPERTY)).thenReturn("beans");
 
-        test(configurableEnvironmentMock, 1, 1, 1, 1, 1, 1, 0, 0, 1);
+        test(configurableEnvironmentMock, 1, 1, 1, 0, 0, 1, 0);
     }
 
     @Test
@@ -57,7 +59,7 @@ public class JaxrsAppRegistrationTest {
         when(configurableEnvironmentMock.getProperty(DEFINITION_PROPERTY)).thenReturn("property");
         when(configurableEnvironmentMock.getProperty(APP_CLASSES_PROPERTY)).thenReturn("com.paypal.springboot.resteasy.sample.TestApplication3, com.paypal.springboot.resteasy.sample.TestApplication4,com.paypal.springboot.resteasy.sample.TestApplication2");
 
-        test(configurableEnvironmentMock, 2, 0, 1, 1, 1, 0, 1, 0, 1);
+        test(configurableEnvironmentMock, 2, 0, 0, 1, 0, 1, 0);
     }
 
     @Test
@@ -65,7 +67,7 @@ public class JaxrsAppRegistrationTest {
         ConfigurableEnvironment configurableEnvironmentMock = mock(ConfigurableEnvironment.class);
         when(configurableEnvironmentMock.getProperty(DEFINITION_PROPERTY)).thenReturn("scanning");
 
-        test(configurableEnvironmentMock, 1, 0, 1, 1, 1, 1, 1, 0, 1);
+        test(configurableEnvironmentMock, 1, 0, 1, 1, 0, 1, 1);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class,
@@ -95,10 +97,17 @@ public class JaxrsAppRegistrationTest {
         resteasyEmbeddedServletInitializer.postProcessBeanFactory(beanFactory);
     }
 
+    @Test
+    public void testPropertyNoApps() {
+        ConfigurableEnvironment configurableEnvironmentMock = mock(ConfigurableEnvironment.class);
+        when(configurableEnvironmentMock.getProperty(DEFINITION_PROPERTY)).thenReturn("property");
+
+        test(configurableEnvironmentMock, 2, 0, 0, 0, 0, 0, 0);
+    }
+
     private void test( ConfigurableEnvironment configurableEnvironmentMock,
-                       int getBeanT, int getBeansOfTypeT, int getBeanNamesForAnnotationPathT,
-                       int getBeanNamesForAnnotationProviderT, int getType,
-                       int testApp1T, int testApp2T, int testApp3T, int testApp4T) {
+                       int getBeanT, int getBeansOfTypeT,
+                       int testApp1T, int testApp2T, int testApp3T, int testApp4T, int testApp5T) {
 
         ConfigurableListableBeanFactory beanFactory = mock(
                 ConfigurableListableBeanFactory.class,
@@ -106,8 +115,9 @@ public class JaxrsAppRegistrationTest {
         );
 
         when(beanFactory.getBean(ConfigurableEnvironment.class)).thenReturn(configurableEnvironmentMock);
-        when(beanFactory.getBeanNamesForAnnotation(Path.class)).thenReturn(new String[]{"testResource1"});
+        when(beanFactory.getBeanNamesForAnnotation(Path.class)).thenReturn(new String[]{"testResource1", "testResource2"});
         when(beanFactory.getType("testResource1")).thenReturn((Class) TestResource1.class);
+        when(beanFactory.getType("testResource2")).thenReturn((Class) TestResource2.class);
 
         if(configurableEnvironmentMock.getProperty(DEFINITION_PROPERTY) != null && configurableEnvironmentMock.getProperty(DEFINITION_PROPERTY).equals("beans")) {
             // Although TestApplication1 and TestApplication4 are not really Spring beans, here we are simulating
@@ -123,15 +133,16 @@ public class JaxrsAppRegistrationTest {
 
         verify(beanFactory, VerificationModeFactory.times(getBeanT)).getBean(ConfigurableEnvironment.class);
         verify(beanFactory, VerificationModeFactory.times(getBeansOfTypeT)).getBeansOfType(Application.class, true, false);
-        verify(beanFactory, VerificationModeFactory.times(getBeanNamesForAnnotationPathT)).getBeanNamesForAnnotation(Path.class);
-        verify(beanFactory, VerificationModeFactory.times(getBeanNamesForAnnotationProviderT)).getBeanNamesForAnnotation(Provider.class);
-        verify(beanFactory, VerificationModeFactory.times(getType)).getType(anyString());
+        verify(beanFactory, VerificationModeFactory.times(1)).getBeanNamesForAnnotation(Path.class);
+        verify(beanFactory, VerificationModeFactory.times(1)).getBeanNamesForAnnotation(Provider.class);
+        verify(beanFactory, VerificationModeFactory.times(2)).getType(anyString());
 
         BeanDefinitionRegistry registry = (BeanDefinitionRegistry) beanFactory;
         verify(registry, VerificationModeFactory.times(testApp1T)).registerBeanDefinition(eq("com.paypal.springboot.resteasy.sample.TestApplication1"), any(GenericBeanDefinition.class));
         verify(registry, VerificationModeFactory.times(testApp2T)).registerBeanDefinition(eq("com.paypal.springboot.resteasy.sample.TestApplication2"), any(GenericBeanDefinition.class));
         verify(registry, VerificationModeFactory.times(testApp3T)).registerBeanDefinition(eq("com.paypal.springboot.resteasy.sample.TestApplication3"), any(GenericBeanDefinition.class));
         verify(registry, VerificationModeFactory.times(testApp4T)).registerBeanDefinition(eq("com.paypal.springboot.resteasy.sample.TestApplication4"), any(GenericBeanDefinition.class));
+        verify(registry, VerificationModeFactory.times(testApp5T)).registerBeanDefinition(eq("com.paypal.springboot.resteasy.sample.TestApplication5"), any(GenericBeanDefinition.class));
     }
 
 }

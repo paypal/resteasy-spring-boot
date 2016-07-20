@@ -86,6 +86,9 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
             case SCANNING:
                 applications = findJaxrsApplicationScanning();
                 break;
+            default:
+                logger.error("JAX-RS application registration method (%s) not known, no application will be registered", registration.name());
+                break;
         }
 
         if(applications != null) {
