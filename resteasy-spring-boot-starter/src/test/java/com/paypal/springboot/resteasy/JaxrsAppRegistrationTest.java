@@ -147,7 +147,11 @@ public class JaxrsAppRegistrationTest {
     }
 
     private void test(ConfigurableEnvironment envMock, Set<Class> expectedRegisteredAppClasses) {
+        ConfigurableListableBeanFactory beanFactory = prepareTest(envMock);
+        performTest(envMock, beanFactory, expectedRegisteredAppClasses);
+    }
 
+    private ConfigurableListableBeanFactory prepareTest(ConfigurableEnvironment envMock) {
         ConfigurableListableBeanFactory beanFactory = mock(
                 ConfigurableListableBeanFactory.class,
                 withSettings().extraInterfaces(BeanDefinitionRegistry.class)
@@ -160,9 +164,6 @@ public class JaxrsAppRegistrationTest {
 
         String definition = envMock.getProperty(DEFINITION_PROPERTY);
 
-        boolean findSpringBeans = (definition == null || definition.equals("auto") || definition.equals("beans"));
-        boolean getAppsProperty = (definition == null || definition.equals("auto") || definition.equals("property"));
-
         if((definition != null && definition.equals("beans"))) {
             // Although TestApplication1 and TestApplication4 are not really Spring beans, here we are simulating
             // they are to see how the JAX-RS Application registration behaves
@@ -171,6 +172,14 @@ public class JaxrsAppRegistrationTest {
             applicationsMap.put("testApplication4", new TestApplication4());
             when(beanFactory.getBeansOfType(Application.class, true, false)).thenReturn(applicationsMap);
         }
+
+        return beanFactory;
+    }
+
+    private void performTest(ConfigurableEnvironment envMock, ConfigurableListableBeanFactory beanFactory, Set<Class> expectedRegisteredAppClasses) {
+        String definition = envMock.getProperty(DEFINITION_PROPERTY);
+        boolean findSpringBeans = (definition == null || definition.equals("auto") || definition.equals("beans"));
+        boolean getAppsProperty = (definition == null || definition.equals("auto") || definition.equals("property"));
 
         ResteasyEmbeddedServletInitializer resteasyEmbeddedServletInitializer = new ResteasyEmbeddedServletInitializer();
         resteasyEmbeddedServletInitializer.postProcessBeanFactory(beanFactory);
