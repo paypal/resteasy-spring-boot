@@ -55,6 +55,11 @@ public class ResteasySpringBootConfigTest {
         Assert.assertNotNull(servletContextProviderFactory);
         Assert.assertNotNull(servletContextDispatcher);
         Assert.assertNotNull(servletContextRegistry);
+
+        // Exercising fully cobertura branch coverage
+        servletContextListener.contextDestroyed(sce);
+        ServletContextListener servletContextListener2 = resteasySpringBootConfig.resteasyBootstrapListener();
+        servletContextListener2.contextDestroyed(sce);
     }
 
 }

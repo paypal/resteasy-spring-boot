@@ -3,16 +3,35 @@ package com.paypal.springboot.resteasy;
 import java.util.Set;
 
 import javax.servlet.Servlet;
+import javax.servlet.ServletContainerInitializer;
 
 import org.jboss.resteasy.plugins.server.servlet.HttpServlet30Dispatcher;
 import org.jboss.resteasy.plugins.server.servlet.ResteasyContextParameters;
+import org.jboss.resteasy.plugins.servlet.ResteasyServletInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.stereotype.Component;
 
 /**
- * 
+ * This class is the Spring Boot equivalent of {@link ResteasyServletInitializer},
+ * which implements the Servlet API {@link ServletContainerInitializer} interface
+ * to find all JAX-RS Application, Provider and Path classes in the classpath.
+ *
+ * As we all know, in Spring Boot we use an embedded servlet container. However,
+ * the Servlet spec does not support embedded containers, and many portions of it
+ * do not apply to embedded containers, and ServletContainerInitializer is one of them.
+ *
+ * This class fills in this gap.
+ *
+ * Notice that the JAX-RS Application classes are found in this RESTEasy starter by class
+ * ResteasyEmbeddedServletInitializer, and that is done by scanning the classpath.
+ *
+ * The Path and Provider annotated classes are found by using Spring framework (instead of
+ * scanning the classpath), since it is assumed those classes are ALWAYS necessarily
+ * Spring beans (this starter is meant for Spring Boot applications that use RESTEasy
+ * as the JAX-RS implementation)
+ *
  * @author Fabio Carvalho (facarvalho@paypal.com or fabiocarvalho777@gmail.com)
  */
 @Component(ResteasyApplicationBuilder.BEAN_NAME)
@@ -37,7 +56,7 @@ public class ResteasyApplicationBuilder {
 			if (!mapping.startsWith("/"))
 				mapping = "/" + mapping;
 			String prefix = mapping;
-			if (!"/".equals(prefix) && "/".endsWith(prefix))
+			if (!"/".equals(prefix) && prefix.endsWith("/"))
 				prefix = prefix.substring(0, prefix.length() - 1);
 			if (mapping.endsWith("/"))
 				mapping += "*";

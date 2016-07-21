@@ -1,5 +1,27 @@
 # Release notes
 
+## 2.1.0-RELEASE
+
+#### Release date
+July 21st, 2016.
+
+#### Third-party versions
+- RESTEasy: 3.0.18.Final
+- Spring Boot: 1.3.6.RELEASE
+
+#### New features and enhancements
+
+1. [22 -  Add configuration to turn OFF scanning for JAX-RS Application sub-classes](https://github.com/paypal/resteasy-spring-boot/issues/22)
+1. [10 -  Support RESTEasy configuration](https://github.com/paypal/resteasy-spring-boot/issues/10)
+1. [20 -  Add documentation](https://github.com/paypal/resteasy-spring-boot/issues/20)
+1. [25 -  Add Cobertura code coverage](https://github.com/paypal/resteasy-spring-boot/issues/25)
+1. [24 -  Automate Travis CI](https://github.com/paypal/resteasy-spring-boot/issues/24)
+
+
+#### Bug fixes
+
+1. [23 -  Make sure section 2.3.2 in JAX-RS 2.0 spec is followed strictly in regard to the absence of JAX-RS Application classes](https://github.com/paypal/resteasy-spring-boot/issues/23)
+
 ## 2.0.1-RELEASE
 
 #### Release date

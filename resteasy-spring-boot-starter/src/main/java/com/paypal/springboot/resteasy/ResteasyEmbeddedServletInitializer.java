@@ -1,10 +1,6 @@
 package com.paypal.springboot.resteasy;
 
-import org.apache.commons.io.FilenameUtils;
 import org.jboss.resteasy.plugins.servlet.ResteasyServletInitializer;
-import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.util.ClasspathHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -13,80 +9,171 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.ConstructorArgumentValues;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
+import org.springframework.core.env.ConfigurableEnvironment;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.ext.Provider;
-import java.io.File;
-import java.net.URL;
-import java.util.Collection;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
- * This is a Spring version of {@link ResteasyServletInitializer}
+ * This is a Spring version of {@link ResteasyServletInitializer}.
+ * It does not register the servlets though, that is done by {@link ResteasyApplicationBuilder}
+ * It only finds the JAX-RS Application classes (by scanning the classpath), and
+ * the JAX-RS Path and Provider annotated Spring beans, and then register the
+ * Spring bean definitions that represent each servlet registration.
  *
  * @author Fabio Carvalho (facarvalho@paypal.com or fabiocarvalho777@gmail.com)
  */
 public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProcessor {
 
-    private Set<Class<? extends Application>> applications;
-    private Set<Class<?>> allResources;
-    private Set<Class<?>> providers;
+    private static final String JAXRS_APP_CLASSES_PROPERTY = "resteasy.jaxrs.app";
+    private static final String JAXRS_APP_CLASSES_DEFINITION_PROPERTY = "resteasy.jaxrs.app.registration";
+
+    private Set<Class<? extends Application>> applications = new HashSet<Class<? extends Application>>();
+    private Set<Class<?>> allResources = new HashSet<Class<?>>();
+    private Set<Class<?>> providers = new HashSet<Class<?>>();
 
     private static final Logger logger = LoggerFactory.getLogger(ResteasyEmbeddedServletInitializer.class);
 
+    private enum JaxrsAppClassesRegistration {
+        BEANS, PROPERTY, SCANNING, AUTO
+    }
+
     /**
-     * Copy all entries that are a JAR file or a directory
+     * Find the JAX-RS application classes.
+     * This is done by one of these three options in this order:
+     *
+     * 1- By having them defined as Spring beans
+     * 2- By setting property {@code resteasy.jaxrs.app} via Spring Boot application properties file.
+     *    This property should contain a comma separated list of JAX-RS sub-classes
+     * 3- Via classpath scanning (looking for javax.ws.rs.core.Application sub-classes)
+     *
+     * First try to find JAX-RS Application sub-classes defined as Spring beans. If that is existent,
+     * the search stops, and those are the only JAX-RS applications to be registered.
+     * If no JAX-RS application Spring beans are found, then see if Sring Boot property {@code resteasy.jaxrs.app}
+     * has been set. If it has, the search stops, and those are the only JAX-RS applications to be registered.
+     * If not, then scan the classpath searching for JAX-RS applications.
+     *
+     * There is a way though to force one of the options above, which is by setting property
+     * {@code resteasy.jaxrs.app.registration} via Spring Boot application properties file. The possible valid
+     * values are {@code beans}, {@code property}, {@code scanning} or {@code auto}. If this property is not
+     * present, the default value is {@code auto}, which means every approach will be tried in the order and way
+     * explained earlier.
+     *
+     * @param beanFactory
      */
-    private void copyValidClasspathEntries(Collection<URL> source, Set<URL> destination) {
-        String fileName;
-        boolean isJarFile;
-        boolean isDirectory;
+    private void findJaxrsApplications(ConfigurableListableBeanFactory beanFactory) {
+        logger.info("Finding JAX-RS Application classes");
 
-        for (URL url : source) {
-            if(destination.contains(url)) {
-                continue;
+        JaxrsAppClassesRegistration registration = getJaxrsAppClassesRegistration(beanFactory);
+
+        switch (registration) {
+            case AUTO:
+                findJaxrsApplicationBeans(beanFactory);
+                if(applications.size() == 0) findJaxrsApplicationProperty(beanFactory);
+                if(applications.size() == 0) findJaxrsApplicationScanning();
+                break;
+            case BEANS:
+                findJaxrsApplicationBeans(beanFactory);
+                break;
+            case PROPERTY:
+                findJaxrsApplicationProperty(beanFactory);
+                break;
+            case SCANNING:
+                findJaxrsApplicationScanning();
+                break;
+            default:
+                logger.error("JAX-RS application registration method (%s) not known, no application will be registered", registration.name());
+                break;
+        }
+
+        for (Object appClass : applications.toArray()) {
+            logger.info("JAX-RS Application class found: {}", ((Class<Application>) appClass).getName());
+        }
+    }
+
+    private JaxrsAppClassesRegistration getJaxrsAppClassesRegistration(ConfigurableListableBeanFactory beanFactory) {
+        ConfigurableEnvironment configurableEnvironment = beanFactory.getBean(ConfigurableEnvironment.class);
+        String jaxrsAppClassesRegistration = configurableEnvironment.getProperty(JAXRS_APP_CLASSES_DEFINITION_PROPERTY);
+        JaxrsAppClassesRegistration registration = JaxrsAppClassesRegistration.AUTO;
+
+        if(jaxrsAppClassesRegistration == null) {
+            logger.info("Property {} has not been set, JAX-RS Application classes registration is being set to AUTO", JAXRS_APP_CLASSES_DEFINITION_PROPERTY);
+        } else {
+            logger.info("Property {} has been set to {}", JAXRS_APP_CLASSES_DEFINITION_PROPERTY, jaxrsAppClassesRegistration);
+            try {
+                registration = JaxrsAppClassesRegistration.valueOf(jaxrsAppClassesRegistration.toUpperCase());
+            } catch(IllegalArgumentException ex) {
+                String errorMesage = String.format("Property %s has not been properly set, value %s is invalid. JAX-RS Application classes registration is being set to AUTO.", JAXRS_APP_CLASSES_DEFINITION_PROPERTY, jaxrsAppClassesRegistration);
+                logger.error(errorMesage);
+                throw new IllegalArgumentException(errorMesage, ex);
             }
+        }
 
-            fileName = url.getFile();
-            isJarFile = FilenameUtils.isExtension(fileName, "jar");
-            isDirectory = new File(fileName).isDirectory();
+        return registration;
+    }
 
-            if (isJarFile || isDirectory) {
-                destination.add(url);
-            } else if (logger.isDebugEnabled()) {
-                logger.debug("Ignored classpath entry: " + fileName);
-            }
+    /**
+     * Find JAX-RS application classes by searching for their related
+     * Spring beans
+     *
+     * @param beanFactory
+     */
+    private void findJaxrsApplicationBeans(ConfigurableListableBeanFactory beanFactory) {
+        logger.info("Searching for JAX-RS Application Spring beans");
+
+        Map<String, Application> applicationBeans = beanFactory.getBeansOfType(Application.class, true, false);
+        if(applicationBeans == null || applicationBeans.size() == 0) {
+            logger.info("No JAX-RS Application Spring beans found");
+            return;
+        }
+
+        for (Application application : applicationBeans.values()) {
+            applications.add(application.getClass());
         }
     }
 
     /**
-     * Scan the Classpath searching for classes of type {@link Application}
+     * Find JAX-RS application classes via property {@code resteasy.jaxrs.app}
      */
-    private void findJaxrsApplicationClasses() {
-        logger.debug("Finding JAX-RS Application classes");
-
-        final Collection<URL> systemPropertyURLs = ClasspathHelper.forJavaClassPath();
-        final Collection<URL> classLoaderURLs = ClasspathHelper.forClassLoader();
-
-        Set<URL> classpathURLs = new HashSet<URL>();
-
-        copyValidClasspathEntries(systemPropertyURLs, classpathURLs);
-        copyValidClasspathEntries(classLoaderURLs, classpathURLs);
-
-        logger.debug("Classpath URLs to be scanned: " + classpathURLs);
-
-        Reflections reflections = new Reflections(classpathURLs, new SubTypesScanner());
-
-        applications = reflections.getSubTypesOf(Application.class);
-
-        if(logger.isDebugEnabled()) {
-            for (Object appClass : applications.toArray()) {
-                logger.debug("JAX-RS Application class found: {}", ((Class<Application>) appClass).getName());
-            }
+    private void findJaxrsApplicationProperty(ConfigurableListableBeanFactory beanFactory) {
+        ConfigurableEnvironment configurableEnvironment = beanFactory.getBean(ConfigurableEnvironment.class);
+        String jaxrsAppsProperty = configurableEnvironment.getProperty(JAXRS_APP_CLASSES_PROPERTY);
+        if(jaxrsAppsProperty == null) {
+            logger.info("No JAX-RS Application set via property {}", JAXRS_APP_CLASSES_PROPERTY);
+            return;
+        } else {
+            logger.info("Property {} has been set", JAXRS_APP_CLASSES_PROPERTY);
         }
+
+        String[] jaxrsClassNames = jaxrsAppsProperty.split(",");
+
+        for(String jaxrsClassName : jaxrsClassNames) {
+            Class<? extends Application> jaxrsClass = null;
+            try {
+                jaxrsClass = (Class<? extends Application>) Class.forName(jaxrsClassName.trim());
+            } catch (ClassNotFoundException e) {
+                String exceptionMessage = String.format("JAX-RS Application class %s has not been found", jaxrsClassName.trim());
+                logger.error(exceptionMessage, e);
+                throw new BeansException(exceptionMessage, e){};
+            }
+            applications.add(jaxrsClass);
+        }
+    }
+
+    /**
+     * Find JAX-RS application classes by scanning the class-path
+     */
+    private void findJaxrsApplicationScanning() {
+        Set<Class<? extends Application>> applications = JaxrsApplicationScanner.getApplications();
+        if(applications == null || applications.size() == 0) {
+            return;
+        }
+        this.applications.addAll(applications);
     }
 
     /**
@@ -102,14 +189,16 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
         String[] resourceBeans = beanFactory.getBeanNamesForAnnotation(Path.class);
         String[] providerBeans = beanFactory.getBeanNamesForAnnotation(Provider.class);
 
-        allResources = new HashSet<Class<?>>();
-        providers = new HashSet<Class<?>>();
-
-        for(String resourceBean : resourceBeans) {
-            allResources.add(beanFactory.getType(resourceBean));
+        if(resourceBeans != null) {
+            for(String resourceBean : resourceBeans) {
+                allResources.add(beanFactory.getType(resourceBean));
+            }
         }
-        for(String providerBean : providerBeans) {
-            providers.add(beanFactory.getType(providerBean));
+
+        if(providerBeans != null) {
+            for(String providerBean : providerBeans) {
+                providers.add(beanFactory.getType(providerBean));
+            }
         }
 
         if(logger.isDebugEnabled()) {
@@ -124,33 +213,20 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
         }
     }
 
-    /**
-     * Check if any JAX-RS related class was found
-     *
-     * @return true only if there is at least one JAX-RS class
-     */
-    private boolean noClasses() {
-        if (applications != null && applications.size() != 0) {
-            return false;
-        }
-        if (allResources != null && allResources.size() != 0) {
-            return false;
-        }
-        if (providers != null && providers.size() != 0) {
-            return false;
-        }
-
-        return true;
-    }
-
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
         logger.debug("Post process bean factory has been called");
 
-        findJaxrsApplicationClasses();
+        findJaxrsApplications(beanFactory);
+
+        // This is done by finding their related Spring beans
         findJaxrsResourcesAndProviderClasses(beanFactory);
 
-        if (noClasses()) {
-            logger.warn("No JAX-RS classes have been found");
+        if (allResources.size() == 0) {
+            logger.warn("No JAX-RS resource Spring beans have been found");
+        }
+        if (applications.size() == 0) {
+            logger.info("No JAX-RS Application classes have been found. A default, one mapped to '/', will be registered.");
+            registerDefaultJaxrsApp(beanFactory);
             return;
         }
 
@@ -159,6 +235,7 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
         for (Class<? extends Application> applicationClass : applications) {
             ApplicationPath path = applicationClass.getAnnotation(ApplicationPath.class);
             if (path == null) {
+                logger.warn("JAX-RS Application class {} has no ApplicationPath annotation, so it will not be registered", applicationClass.getName());
                 continue;
             }
 
@@ -168,6 +245,18 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
             registry.registerBeanDefinition(applicationClass.getName(), applicationServletBean);
         }
 
+    }
+
+    /**
+     * Register a default JAX-RS application, in case no other is present in the application.
+     * Read section 2.3.2 in JAX-RS 2.0 specification.
+     *
+     * @param beanFactory
+     */
+    private void registerDefaultJaxrsApp(ConfigurableListableBeanFactory beanFactory) {
+        BeanDefinitionRegistry registry = (BeanDefinitionRegistry) beanFactory;
+        GenericBeanDefinition applicationServletBean = createApplicationServlet(Application.class, "/");
+        registry.registerBeanDefinition(Application.class.getName(), applicationServletBean);
     }
 
     /**

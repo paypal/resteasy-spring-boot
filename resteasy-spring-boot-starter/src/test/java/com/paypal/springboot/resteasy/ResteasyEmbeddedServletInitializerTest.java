@@ -12,6 +12,7 @@ import java.util.Map;
 
 /**
  * Created by facarvalho on 11/25/15.
+ * @author Fabio Carvalho (facarvalho@paypal.com or fabiocarvalho777@gmail.com)
  */
 @ContextConfiguration("classpath:test-config.xml")
 public class ResteasyEmbeddedServletInitializerTest extends AbstractTestNGSpringContextTests {
@@ -24,8 +25,8 @@ public class ResteasyEmbeddedServletInitializerTest extends AbstractTestNGSpring
         Map<String, ServletRegistrationBean> servletRegistrationBeans = applicationContext.getBeansOfType(ServletRegistrationBean.class);
         Assert.assertNotNull(servletRegistrationBeans);
 
-        // Although there are 4 sample JAX-RS Application classes, one of them is not annotated with the ApplicationPath annotation!
-        Assert.assertEquals(servletRegistrationBeans.size(), 3);
+        // Although there are 5 sample JAX-RS Application classes, one of them is not annotated with the ApplicationPath annotation!
+        Assert.assertEquals(servletRegistrationBeans.size(), 4);
 
         for(String applicationClassName : servletRegistrationBeans.keySet()) {
             testApplicaton(applicationClassName, servletRegistrationBeans.get(applicationClassName));
