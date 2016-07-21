@@ -1,5 +1,20 @@
 # Release notes
 
+## 2.1.1-RELEASE
+
+#### Release date
+TBD
+
+#### Third-party versions
+- RESTEasy: 3.0.18.Final
+- Spring Boot: 1.3.6.RELEASE
+
+#### New features and enhancements
+TBD
+
+#### Bug fixes
+TBD
+
 ## 2.1.0-RELEASE
 
 #### Release date
@@ -16,7 +31,6 @@ July 21st, 2016.
 1. [20 -  Add documentation](https://github.com/paypal/resteasy-spring-boot/issues/20)
 1. [25 -  Add Cobertura code coverage](https://github.com/paypal/resteasy-spring-boot/issues/25)
 1. [24 -  Automate Travis CI](https://github.com/paypal/resteasy-spring-boot/issues/24)
-
 
 #### Bug fixes
 
