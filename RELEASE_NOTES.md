@@ -7,7 +7,7 @@ TBD
 
 #### Third-party versions
 - RESTEasy: 3.0.17.Final
-- Spring Boot: TBD (hopefully 1.4.0, depending on when it is released)
+- Spring Boot: TBD (__hopefully 1.4.0, depending on when it is released__)
 
 #### New features and enhancements
 
@@ -17,9 +17,10 @@ TBD
 1. [25 -  Add Cobertura code coverage](https://github.com/paypal/resteasy-spring-boot/issues/25)
 1. [24 -  Automate Travis CI](https://github.com/paypal/resteasy-spring-boot/issues/24)
 
+
 #### Bug fixes
 
-None
+1. [23 -  Make sure section 2.3.2 in JAX-RS 2.0 spec is followed strictly in regard to the absence of JAX-RS Application classes](https://github.com/paypal/resteasy-spring-boot/issues/23)
 
 ## 2.0.1-RELEASE
 
