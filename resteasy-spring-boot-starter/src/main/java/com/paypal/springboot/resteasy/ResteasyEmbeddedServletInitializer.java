@@ -9,6 +9,7 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.ConstructorArgumentValues;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import javax.ws.rs.ApplicationPath;
@@ -233,7 +234,7 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
         BeanDefinitionRegistry registry = (BeanDefinitionRegistry) beanFactory;
 
         for (Class<? extends Application> applicationClass : applications) {
-            ApplicationPath path = applicationClass.getAnnotation(ApplicationPath.class);
+            ApplicationPath path = AnnotationUtils.findAnnotation(applicationClass, ApplicationPath.class);
             if (path == null) {
                 logger.warn("JAX-RS Application class {} has no ApplicationPath annotation, so it will not be registered", applicationClass.getName());
                 continue;

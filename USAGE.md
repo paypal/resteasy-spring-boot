@@ -7,14 +7,27 @@ Add the Maven dependency below to your Spring Boot application pom file.<br>
 <dependency>
    <groupId>com.paypal.springboot</groupId>
    <artifactId>resteasy-spring-boot-starter</artifactId>
-   <version>2.1.0-RELEASE</version>
+   <version>2.1.1-RELEASE</version>
    <scope>runtime</scope>
 </dependency>
 ```
 
 #### Registering JAX-RS application classes
-Just define your JAX-RS application class (a subclass of [Application](http://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Application.html)) as a Spring bean, and it will be automatically registered.
+Just define your JAX-RS application class (a subclass of [Application](http://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Application.html)) as a Spring bean, and it will be automatically registered. See the example below.
 See section [JAX-RS application registration methods](#jax-rs-application-registration-methods) for further information.
+
+```
+package com.test;
+
+import org.springframework.stereotype.Component;
+import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.core.Application;
+
+@Component
+@ApplicationPath("/sample-app/")
+public class JaxrsApplication extends Application {
+}
+```
 
 #### Registering JAX-RS resources and providers
 Just define them as Spring beans, and they will be automatically registered.
