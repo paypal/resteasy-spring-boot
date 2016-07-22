@@ -3,14 +3,14 @@
 ## 2.1.1-RELEASE
 
 #### Release date
-TBD
+July 22nd, 2016.
 
 #### Third-party versions
 - RESTEasy: 3.0.18.Final
 - Spring Boot: 1.3.6.RELEASE
 
 #### New features and enhancements
-TBD
+None
 
 #### Bug fixes
 
