@@ -13,7 +13,8 @@ TBD
 TBD
 
 #### Bug fixes
-TBD
+
+1. [23 - JAX-RS application fails to register after upgrade to 2.1.0](https://github.com/paypal/resteasy-spring-boot/issues/30)
 
 ## 2.1.0-RELEASE
 
