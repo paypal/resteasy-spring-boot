@@ -13,7 +13,7 @@ TBD
 TBD
 
 #### Bug fixes
-TBD
+1. [35 - Not possible to use application property in application.yml](https://github.com/paypal/resteasy-spring-boot/issues/35)
 
 ## 2.1.1-RELEASE
 

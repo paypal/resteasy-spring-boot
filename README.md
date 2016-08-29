@@ -16,7 +16,7 @@ Also, this RESTEasy Spring Boot starter integrates with Spring as expected, whic
 * Enables RESTEasy for Spring Boot applications
 * Supports JAX-RS providers, resources and sub-resources as Spring beans
 * Supports automatic discovery and registration of multiple [JAX-RS Application](http://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Application.html) classes as Spring beans
-* Supports optional registration of [JAX-RS Application](http://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Application.html) classes via class-path scanning, or manually, via configuration properties
+* Supports optional registration of [JAX-RS Application](http://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Application.html) classes via class-path scanning, or manually, via configuration properties (or YAML) file
 * Leverages and supports RESTEasy configuration
 
 ## Quick start
