@@ -50,7 +50,7 @@ You can define the method you prefer by setting property `resteasy.jaxrs.app.reg
 1. `scanning`
 1. `auto` (default)
 
-The first three values refer respectively to each one of the three methods described earlier. The last one, `auto`, when set (or when property `resteasy.jaxrs.app.registration` is not present), attempts first to find JAX-RS application classes by searching them as Spring beans. If any is found, the search stops, and those are the only JAX-RS applications to be registered. If no JAX-RS application Spring beans are found, then the `property` approach is tried. If still no JAX-RS application classes could be found, then the last method, `scanning`, is attempted. If after that still no JAX-RS application class could be registered, then the Spring Boot application won't be able to serve any request.
+The first three values refer respectively to each one of the three methods described earlier. The last one, `auto`, when set (or when property `resteasy.jaxrs.app.registration` is not present), attempts first to find JAX-RS application classes by searching them as Spring beans. If any is found, the search stops, and those are the only JAX-RS applications to be registered. If no JAX-RS application Spring beans are found, then the `property` approach is tried. If still no JAX-RS application classes could be found, then the last method, `scanning`, is attempted. If after that still no JAX-RS application class could be registered, then a default one will be automatically created mapping to `/*` (_according to section 2.3.2 in the JAX-RS 2.0 specification_).
 
 __Important notes__
 
