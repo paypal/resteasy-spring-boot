@@ -6,14 +6,16 @@
 TBD
 
 #### Third-party versions
-- RESTEasy: TBD
-- Spring Boot: TBD
+- RESTEasy: 3.0.19.Final
+- Spring Boot: 1.4.0.RELEASE
 
 #### New features and enhancements
-TBD
+1. [33 - Upgrade to the latest Spring Boot and the RESTEasy versions](https://github.com/paypal/resteasy-spring-boot/issues/33)
 
 #### Bug fixes
 1. [35 - Not possible to use application property in application.yml](https://github.com/paypal/resteasy-spring-boot/issues/35)
+1. [34 - Mockito should be set to test scope](https://github.com/paypal/resteasy-spring-boot/issues/34)
+1. [32 - Documentation has a contradiction about registering Application subclasses](https://github.com/paypal/resteasy-spring-boot/issues/32)
 
 ## 2.1.1-RELEASE
 
