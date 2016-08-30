@@ -1,6 +1,6 @@
 # Release notes
 
-## 2.2.1-RELEASE
+## 2.2.0-RELEASE
 
 #### Release date
 TBD
