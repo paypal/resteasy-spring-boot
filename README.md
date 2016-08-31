@@ -13,11 +13,11 @@ This Spring Boot starter is fully functional, has ZERO PayPal specific code on i
 Also, this RESTEasy Spring Boot starter integrates with Spring as expected, which means every JAX-RS REST resource that is also a Spring bean will be automatically auto-scanned, integrated, and available.
 
 ## Features
-* Enable RESTEasy and Spring integration for Spring Boot applications
-* Support Spring Boot application execution from `mvn spring-boot:run`
-* Support JAX-RS providers, resources and sub-resources
-* Support automatic discovery of multiple [JAX-RS Application](http://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Application.html) classes as Spring beans, via class-path scanning, or via manual registration
-* Support automatic discovery of JAX-RS providers and resources Spring beans 
+* Enables RESTEasy for Spring Boot applications
+* Supports JAX-RS providers, resources and sub-resources as Spring beans
+* Supports automatic discovery and registration of multiple [JAX-RS Application](http://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Application.html) classes as Spring beans
+* Supports optional registration of [JAX-RS Application](http://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Application.html) classes via class-path scanning, or manually, via configuration properties (or YAML) file
+* Leverages and supports RESTEasy configuration
 
 ## Quick start
 
@@ -28,14 +28,14 @@ Add the Maven dependency below to your Spring Boot application pom file.<br>
 <dependency>
    <groupId>com.paypal.springboot</groupId>
    <artifactId>resteasy-spring-boot-starter</artifactId>
-   <version>2.1.1-RELEASE</version>
+   <version>2.2.0-RELEASE</version>
    <scope>runtime</scope>
 </dependency>
 ```
 
 ### Registering JAX-RS application classes
 Just define your JAX-RS application class (a subclass of [Application](http://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Application.html)) as a Spring bean, and it will be automatically registered. See the example below.
-See section _JAX-RS application registration methods_ in [How to use RESTEasy Spring Boot Starter](./USAGE.md) for further information.
+See section _JAX-RS application registration methods_ in [How to use RESTEasy Spring Boot Starter](mds/USAGE.md) for further information.
 ```
 package com.test;
 
@@ -54,10 +54,10 @@ Just define them as Spring beans, and they will be automatically registered.
 Notice that JAX-RS resources can be singleton or request scoped, while JAX-RS providers must be singletons.
 
 ### Further information
-See [How to use RESTEasy Spring Boot Starter](./USAGE.md).
+See [How to use RESTEasy Spring Boot Starter](mds/USAGE.md).
 
 ## Release notes
-See [RESTEasy Spring Boot starter release notes](./RELEASE_NOTES.md).
+See [RESTEasy Spring Boot starter release notes](mds/RELEASE_NOTES.md).
 
 ## Projects
 
@@ -71,7 +71,7 @@ The RESTEasy Spring Boot Starter project.
 Please open an issue using our [GitHub issues](https://github.com/paypal/resteasy-spring-boot/issues) page.
 
 ## Contributing
-You are very welcome to contribute to RESTEasy Spring Boot starter! Read our [Contribution guidelines](./CONTRIBUTING.md).
+You are very welcome to contribute to RESTEasy Spring Boot starter! Read our [Contribution guidelines](mds/CONTRIBUTING.md).
 
 ## Contacting us
 To contact us, please send an email to fabiocarvalho777@gmail.com.
