@@ -17,7 +17,6 @@ import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -30,7 +29,6 @@ import javax.servlet.ServletContextListener;
  * 
  */
 @Configuration
-@Import({ResteasyApplicationBuilder.class, ResteasyEmbeddedServletInitializer.class})
 @AutoConfigureAfter(WebMvcAutoConfiguration.class)
 @EnableConfigurationProperties
 public class ResteasySpringBootConfig {
@@ -97,5 +95,14 @@ public class ResteasySpringBootConfig {
 
 		return servletContextListener;
 	}
-	
+
+	@Bean(name = ResteasyApplicationBuilder.BEAN_NAME)
+	public ResteasyApplicationBuilder resteasyApplicationBuilder() {
+		return new ResteasyApplicationBuilder();
+	}
+
+	@Bean
+	public ResteasyEmbeddedServletInitializer resteasyEmbeddedServletInitializer() {
+		return new ResteasyEmbeddedServletInitializer();
+	}
 }
