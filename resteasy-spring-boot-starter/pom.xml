@@ -42,7 +42,7 @@
     </distributionManagement>
 
     <properties>
-        <springboot.version>1.4.0.RELEASE</springboot.version>
+        <springboot.version>1.4.2.RELEASE</springboot.version>
         <resteasy.version>3.0.19.Final</resteasy.version>
         <coverage.line>80</coverage.line>
         <coverage.branch>80</coverage.branch>
