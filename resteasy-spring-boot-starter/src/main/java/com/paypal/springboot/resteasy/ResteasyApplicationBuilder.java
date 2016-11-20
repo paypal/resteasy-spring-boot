@@ -10,8 +10,7 @@ import org.jboss.resteasy.plugins.server.servlet.ResteasyContextParameters;
 import org.jboss.resteasy.plugins.servlet.ResteasyServletInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.context.embedded.ServletRegistrationBean;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 
 /**
  * This class is the Spring Boot equivalent of {@link ResteasyServletInitializer},
@@ -34,7 +33,6 @@ import org.springframework.stereotype.Component;
  *
  * @author Fabio Carvalho (facarvalho@paypal.com or fabiocarvalho777@gmail.com)
  */
-@Component(ResteasyApplicationBuilder.BEAN_NAME)
 public class ResteasyApplicationBuilder {
 
 	public static final String BEAN_NAME = "JaxrsApplicationServletBuilder";

@@ -1,5 +1,21 @@
 # Release notes
 
+## 2.2.1-RELEASE
+
+#### Release date
+November 20th, 2016.
+
+#### Third-party versions
+- RESTEasy: 3.0.19.Final
+- Spring Boot: 1.4.2.RELEASE
+
+#### New features and enhancements
+1. [43 - Upgrade Spring Boot to version 1.4.2](https://github.com/paypal/resteasy-spring-boot/issues/43)
+1. [40 - Spring 4.1 is not supported although it easily can be](https://github.com/paypal/resteasy-spring-boot/issues/40)
+
+#### Bug fixes
+1. [42 - Remove deprecated code](https://github.com/paypal/resteasy-spring-boot/issues/42)
+
 ## 2.2.0-RELEASE
 
 #### Release date
