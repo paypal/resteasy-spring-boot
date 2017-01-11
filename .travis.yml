@@ -1,4 +1,5 @@
 language: java
+sudo: required
 
 jdk:
   - oraclejdk8
@@ -7,12 +8,13 @@ install: mvn install
 
 before_install:
   # Installing Codacy code coverage reporter upload tool
-  - curl -sL https://bndtools.ci.cloudbees.com/job/bnd.master/lastSuccessfulBuild/artifact/biz.aQute.jpm/generated/biz.aQute.jpm.run.jar >jpm4j.jar
-  - java -jar jpm4j.jar --user init
-  - ${HOME}/jpm/bin/jpm install com.codacy:codacy-coverage-reporter:assembly
+  - curl -sL https://github.com/jpm4j/jpm4j.installers/raw/master/dist/biz.aQute.jpm.run.jar >t.jar
+  - sudo java -jar t.jar init
+  - rm t.jar
+  - sudo jpm install com.codacy:codacy-coverage-reporter:assembly
 
 after_success:
   # Uploading Cobertura report to Codacy
-  - ${HOME}/jpm/bin/codacy-coverage-reporter -l Java -r ./resteasy-spring-boot-starter/target/site/cobertura/coverage.xml --projectToken $CODACY_PROJECT_TOKEN
+  - codacy-coverage-reporter -l Java -r ./resteasy-spring-boot-starter/target/site/cobertura/coverage.xml --projectToken $CODACY_PROJECT_TOKEN
   # Deploying SNAPSHOT artifacts to Maven Central
   - mvn -B -f ./resteasy-spring-boot-starter/pom.xml -s ./resteasy-spring-boot-starter/settings.xml -DskipTests=true -Dcobertura.skip deploy
