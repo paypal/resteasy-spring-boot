@@ -24,7 +24,7 @@ Also, this RESTEasy Spring Boot starter integrates with Spring as expected, whic
 ### Adding POM dependency
 Add the Maven dependency below to your Spring Boot application pom file.<br>
 
-```
+``` xml
 <dependency>
    <groupId>com.paypal.springboot</groupId>
    <artifactId>resteasy-spring-boot-starter</artifactId>
@@ -36,7 +36,7 @@ Add the Maven dependency below to your Spring Boot application pom file.<br>
 ### Registering JAX-RS application classes
 Just define your JAX-RS application class (a subclass of [Application](http://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Application.html)) as a Spring bean, and it will be automatically registered. See the example below.
 See section _JAX-RS application registration methods_ in [How to use RESTEasy Spring Boot Starter](mds/USAGE.md) for further information.
-```
+``` java
 package com.test;
 
 import org.springframework.stereotype.Component;
@@ -53,8 +53,70 @@ public class JaxrsApplication extends Application {
 Just define them as Spring beans, and they will be automatically registered.
 Notice that JAX-RS resources can be singleton or request scoped, while JAX-RS providers must be singletons.
 
+
 ### Further information
 See [How to use RESTEasy Spring Boot Starter](mds/USAGE.md).
+
+
+## Testing
+
+### Adding POM dependency and enable integration-tests
+
+Add the Maven dependency below to your Spring Boot application pom file.<br>
+
+``` xml
+<dependencies>
+    <dependency>
+        <groupId>com.paypal.springboot</groupId>
+        <artifactId>resteasy-spring-boot-test</artifactId>
+        <version>2.2.2-SNAPSHOT</version>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
+
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <executions>
+                <execution>
+                    <id>failsafe-integration-tests</id>
+                    <phase>integration-test</phase>
+                    <goals>
+                        <goal>integration-test</goal>
+                        <goal>verify</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
+
+```
+
+### Writing a test class
+
+Create a new class in `src/test/java` with a name ending with `IT`.
+
+``` java
+
+public class EchoIT extends RestEasyApplicationTest {
+    public EchoIT() {
+        // provide spring application main class
+        // and the base path to the application
+        super(Application.class, "/sample-app/echo");  
+    }
+}
+```
+
+### Running tests
+
+`mvn test` will run only unit tests. In order to execute the integration test run `mvn integration-test`.
+
+### Further information
+See [Test Class](../sample-app/src/test/java/com/test/EchoIT.java) for an example how to test. The example uses [rest-assured](https://github.com/rest-assured/rest-assured/wiki/Usage) to build and verify requests.
+
 
 ## Release notes
 See [RESTEasy Spring Boot starter release notes](mds/RELEASE_NOTES.md).
@@ -66,6 +128,10 @@ A simple Spring Boot application that exposes JAX-RS endpoints as Spring beans u
 
 ##### resteasy-spring-boot-starter
 The RESTEasy Spring Boot Starter project.
+
+
+##### resteasy-spring-boot-test
+Test helpers for testing resteasy applications
 
 ## Reporting an issue
 Please open an issue using our [GitHub issues](https://github.com/paypal/resteasy-spring-boot/issues) page.

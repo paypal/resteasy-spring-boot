@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.paypal.springboot</groupId>
+    <artifactId>resteasy-spring-boot-test</artifactId>
+    <version>2.2.2-SNAPSHOT</version>
+    <name>${project.artifactId}</name>
+
+    <description>Test helpers for Spring Boot starter for RESTEasy</description>
+    <url>https://github.com/paypal/resteasy-spring-boot</url>
+
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>Fabio Carvalho</name>
+            <email>facarvalho@paypal.com</email>
+            <organization>PayPal</organization>
+            <organizationUrl>http://www.paypal.com</organizationUrl>
+        </developer>
+        <developer>
+            <name>Christian Fehmer</name>
+            <email>github@fehmer.info</email>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:git@github.com:paypal/resteasy-spring-boot.git</connection>
+        <developerConnection>scm:git:git@github.com:paypal/resteasy-spring-boot.git</developerConnection>
+        <url>git@github.com:paypal/resteasy-spring-boot.git</url>
+    </scm>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>1.4.2.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+    </dependencies>
+
+</project>

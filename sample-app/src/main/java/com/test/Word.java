@@ -12,12 +12,14 @@ public class Word {
     private long wordId;
     private String wordString;
 
-    public void setWordId(long wordId) {
+    public Word setWordId(long wordId) {
         this.wordId = wordId;
+        return this;
     }
 
-    public void setWordString(String wordString) {
+    public Word setWordString(String wordString) {
         this.wordString = wordString;
+        return this;
     }
 
     public long getWordId() {
