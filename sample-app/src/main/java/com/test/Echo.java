@@ -1,5 +1,6 @@
 package com.test;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;
@@ -17,12 +18,13 @@ import javax.ws.rs.core.MediaType;
 @Component
 public class Echo {
 
+    @Autowired
+    private WordService words;
+
     @Path("/echo")
     @GET
     public Word echo() {
-        Word word = new Word();
-        word.setWordId(1);
-        word.setWordString("Lua");
+        Word word = words.getWord();
         return word;
     }
 

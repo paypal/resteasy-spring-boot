@@ -9,7 +9,7 @@ You can start the application as you for any other regular Spring Boot applicati
 1. From the command line, under the sample application project, run `mvn spring-boot:run`
 1. From your favorite IDE, run class `com.test.Application`
 
-## Teting it
+## Testing it
 
 Send a **GET** request to the endpoint below.
 
@@ -17,7 +17,19 @@ Send a **GET** request to the endpoint below.
 
 You should receive a response message with this payload as result:
 
-    {
-        "wordId": 1,
-        "wordString": "Lua"
-    }
+``` json
+{
+    "wordId": 1,
+    "wordString": "Lua"
+}
+```
+   
+## Automated tests
+
+ 1. Unit tests are located in `src/test/java` and end with `Test`. Execute the tests with `mvn test`
+ 
+ 2. Integration tests are located in `src/test/java` and end with `IT`. Execute the integration tests with `mvn integration-test`
+ 
+ 
+ Unit tests are fast running test which are executed on normal builds. Integration tests are longer-running tests. The integration test 
+ for this example server starts an embedded container and fires requests against the running application.
