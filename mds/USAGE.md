@@ -3,7 +3,7 @@
 #### Adding POM dependency
 Add the Maven dependency below to your Spring Boot application pom file.<br>
 
-```
+``` xml
 <dependency>
    <groupId>com.paypal.springboot</groupId>
    <artifactId>resteasy-spring-boot-starter</artifactId>
@@ -16,7 +16,7 @@ Add the Maven dependency below to your Spring Boot application pom file.<br>
 Just define your JAX-RS application class (a subclass of [Application](http://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Application.html)) as a Spring bean, and it will be automatically registered. See the example below.
 See section [JAX-RS application registration methods](#jax-rs-application-registration-methods) for further information.
 
-```
+``` java
 package com.test;
 
 import org.springframework.stereotype.Component;
