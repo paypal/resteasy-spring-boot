@@ -159,7 +159,7 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
             }
             logger.warn("Property {} has been set. Notice that this property has been deprecated and will be removed soon. Please replace it by property {}", JAXRS_APP_CLASSES_PROPERTY_LEGACY, JAXRS_APP_CLASSES_PROPERTY);
         } else {
-            logger.info("Property {} has been set", JAXRS_APP_CLASSES_PROPERTY);
+            logger.info("Property {} has been set to {}", JAXRS_APP_CLASSES_PROPERTY, jaxrsAppsProperty);
         }
 
         String[] jaxrsClassNames = jaxrsAppsProperty.split(",");
