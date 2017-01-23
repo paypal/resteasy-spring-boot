@@ -13,6 +13,7 @@
     <modules>
         <module>resteasy-spring-boot-starter</module>
         <module>sample-app</module>
+        <module>resteasy-spring-boot-starter-test</module>
     </modules>
 
 </project>
