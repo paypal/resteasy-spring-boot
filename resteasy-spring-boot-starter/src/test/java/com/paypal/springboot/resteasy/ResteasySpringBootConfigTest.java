@@ -22,7 +22,7 @@ public class ResteasySpringBootConfigTest {
 
     @Test
     public void springBeanProcessor() {
-        BeanFactoryPostProcessor beanFactoryPostProcessor = ResteasySpringBootConfig.springBeanProcessor();
+        BeanFactoryPostProcessor beanFactoryPostProcessor = new ResteasySpringBootConfig().springBeanProcessor();
 
         Assert.assertNotNull(beanFactoryPostProcessor);
         Assert.assertEquals(SpringBeanProcessor.class, beanFactoryPostProcessor.getClass());
