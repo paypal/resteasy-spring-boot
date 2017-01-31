@@ -35,17 +35,15 @@ public class ResteasySpringBootConfig {
 
 	private static Logger logger = LoggerFactory.getLogger(ResteasySpringBootConfig.class);
 
-	private static ResteasyProviderFactory resteasyProviderFactory = new ResteasyProviderFactory();
-	private static ResourceMethodRegistry resourceMethodRegistry = new ResourceMethodRegistry(resteasyProviderFactory);
-
 	@Bean
-	public static BeanFactoryPostProcessor springBeanProcessor() {
+	public BeanFactoryPostProcessor springBeanProcessor() {
 		SpringBeanProcessor springBeanProcessor;
 
 		springBeanProcessor = new SpringBeanProcessor();
 
+		ResteasyProviderFactory resteasyProviderFactory = new ResteasyProviderFactory();
 		springBeanProcessor.setProviderFactory(resteasyProviderFactory);
-		springBeanProcessor.setRegistry(resourceMethodRegistry);
+		springBeanProcessor.setRegistry(new ResourceMethodRegistry(resteasyProviderFactory));
 
 		logger.debug("SpringBeanProcessor has been created");
 
@@ -61,6 +59,8 @@ public class ResteasySpringBootConfig {
 	public ServletContextListener resteasyBootstrapListener() {
 		ServletContextListener servletContextListener = new ServletContextListener() {
 
+			private SpringBeanProcessor springBeanProcessor = (SpringBeanProcessor)springBeanProcessor();
+			
 			protected ResteasyDeployment deployment;
 
 			public void contextInitialized(ServletContextEvent sce) {
@@ -70,10 +70,12 @@ public class ResteasySpringBootConfig {
 
 				deployment = config.createDeployment();
 
+				ResteasyProviderFactory resteasyProviderFactory = springBeanProcessor.getProviderFactory();
+				ResourceMethodRegistry registry = (ResourceMethodRegistry)springBeanProcessor.getRegistry();
 				deployment.setProviderFactory(resteasyProviderFactory);
-				deployment.setRegistry(resourceMethodRegistry);
+				deployment.setRegistry(registry);
 
-				SynchronousDispatcher dispatcher = new SynchronousDispatcher(resteasyProviderFactory, resourceMethodRegistry);
+				SynchronousDispatcher dispatcher = new SynchronousDispatcher(resteasyProviderFactory, registry);
 				dispatcher.getUnwrappedExceptions().addAll(deployment.getUnwrappedExceptions());
 				deployment.setDispatcher(dispatcher);
 
