@@ -93,7 +93,7 @@ public class ResteasyApplicationBuilder {
 			servletRegistrationBean.addInitParameter(ResteasyContextParameters.RESTEASY_SCANNED_PROVIDERS, builder.toString());
 		}
 
-		logger.debug("ServletRegistrationBean has just bean created for JAX-RS class" + applicationClassName);
+		logger.debug("ServletRegistrationBean has just bean created for JAX-RS class " + applicationClassName);
 
 		return servletRegistrationBean;
 	}
