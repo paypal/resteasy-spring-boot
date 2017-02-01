@@ -1,5 +1,22 @@
 # Release notes
 
+## 2.3.0-RELEASE
+
+#### Release date
+TBD
+
+#### Third-party versions
+- RESTEasy: TBD
+- Spring Boot: TBD
+
+#### New features and enhancements
+1. [49 - Upgrade to latest RESTEasy version](https://github.com/paypal/resteasy-spring-boot/issues/49)
+1. [50 - Upgrade to latest Spring Boot version](https://github.com/paypal/resteasy-spring-boot/issues/50)
+1. [54 - Add a test case to integration tests to reproduce issue with multiple applications](https://github.com/paypal/resteasy-spring-boot/issues/54)
+
+#### Bug fixes
+None
+
 ## 2.2.2-RELEASE
 
 #### Release date
