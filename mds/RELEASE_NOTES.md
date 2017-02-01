@@ -3,17 +3,18 @@
 ## 2.2.2-RELEASE
 
 #### Release date
-TBD
+February 1st, 2017.
 
 #### Third-party versions
-- RESTEasy: TBD
-- Spring Boot: TBD
+- RESTEasy: 3.0.19.Final
+- Spring Boot: 1.4.2.RELEASE
 
 #### New features and enhancements
-TBD
+1. [13 - Add automated integration tests](https://github.com/paypal/resteasy-spring-boot/issues/13)
 
 #### Bug fixes
-TBD
+1. [51 - Do not share ResteasyProviderFactory and Registry among applications](https://github.com/paypal/resteasy-spring-boot/issues/51)
+1. [44 - Fix CI travis jpm usage](https://github.com/paypal/resteasy-spring-boot/issues/44)
 
 ## 2.2.1-RELEASE
 
