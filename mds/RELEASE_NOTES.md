@@ -3,19 +3,18 @@
 ## 2.3.0-RELEASE
 
 #### Release date
-TBD
+February 22nd, 2017.
 
 #### Third-party versions
 - RESTEasy: 3.1.0.Final
-- Spring Boot: TBD
+- Spring Boot: 1.5.1.RELEASE
 
 #### New features and enhancements
-1. [49 - Upgrade to latest RESTEasy version](https://github.com/paypal/resteasy-spring-boot/issues/49)
-1. [50 - Upgrade to latest Spring Boot version](https://github.com/paypal/resteasy-spring-boot/issues/50)
-1. [54 - Add a test case to integration tests to reproduce issue with multiple applications](https://github.com/paypal/resteasy-spring-boot/issues/54)
+1. [49 - Upgrade to RESTEasy version 3.1.0](https://github.com/paypal/resteasy-spring-boot/issues/49)
+1. [50 - Upgrade to Spring Boot version 1.5.1](https://github.com/paypal/resteasy-spring-boot/issues/50)
 
 #### Bug fixes
-None
+1. [56 - Warning messages during startup](https://github.com/paypal/resteasy-spring-boot/issues/56)
 
 ## 2.2.2-RELEASE
 
