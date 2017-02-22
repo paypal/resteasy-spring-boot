@@ -25,89 +25,88 @@ import javax.servlet.ServletContextListener;
 
 /**
  * This is the main class that configures this Resteasy Sring Boot starter
- * 
+ *
  * @author Fabio Carvalho (facarvalho@paypal.com or fabiocarvalho777@gmail.com)
- * 
  */
 @Configuration
 @AutoConfigureAfter(WebMvcAutoConfiguration.class)
 @EnableConfigurationProperties
 public class ResteasySpringBootConfig {
 
-	private static Logger logger = LoggerFactory.getLogger(ResteasySpringBootConfig.class);
+    private static Logger logger = LoggerFactory.getLogger(ResteasySpringBootConfig.class);
 
-	@Bean
+    @Bean
     @Qualifier("ResteasyProviderFactory")
-	public static BeanFactoryPostProcessor springBeanProcessor() {
+    public static BeanFactoryPostProcessor springBeanProcessor() {
         ResteasyProviderFactory resteasyProviderFactory = new ResteasyProviderFactory();
         ResourceMethodRegistry resourceMethodRegistry = new ResourceMethodRegistry(resteasyProviderFactory);
 
-		SpringBeanProcessor springBeanProcessor = new SpringBeanProcessor();
-		springBeanProcessor.setProviderFactory(resteasyProviderFactory);
-		springBeanProcessor.setRegistry(resourceMethodRegistry);
+        SpringBeanProcessor springBeanProcessor = new SpringBeanProcessor();
+        springBeanProcessor.setProviderFactory(resteasyProviderFactory);
+        springBeanProcessor.setRegistry(resourceMethodRegistry);
 
-		logger.debug("SpringBeanProcessor has been created");
+        logger.debug("SpringBeanProcessor has been created");
 
-		return springBeanProcessor;
-	}
+        return springBeanProcessor;
+    }
 
-	/**
-	 * This is a modified version of {@link ResteasyBootstrap}
-	 * 
-	 * @return a ServletContextListener object that configures and start a ResteasyDeployment
-	 */
-	@Bean
-	public ServletContextListener resteasyBootstrapListener(@Qualifier("ResteasyProviderFactory") final BeanFactoryPostProcessor beanFactoryPostProcessor) {
-		ServletContextListener servletContextListener = new ServletContextListener() {
+    /**
+     * This is a modified version of {@link ResteasyBootstrap}
+     *
+     * @return a ServletContextListener object that configures and start a ResteasyDeployment
+     */
+    @Bean
+    public ServletContextListener resteasyBootstrapListener(@Qualifier("ResteasyProviderFactory") final BeanFactoryPostProcessor beanFactoryPostProcessor) {
+        ServletContextListener servletContextListener = new ServletContextListener() {
 
             private SpringBeanProcessor springBeanProcessor = (SpringBeanProcessor) beanFactoryPostProcessor;
 
-			protected ResteasyDeployment deployment;
+            protected ResteasyDeployment deployment;
 
-			public void contextInitialized(ServletContextEvent sce) {
-				ServletContext servletContext = sce.getServletContext();
+            public void contextInitialized(ServletContextEvent sce) {
+                ServletContext servletContext = sce.getServletContext();
 
-				ListenerBootstrap config = new ListenerBootstrap(servletContext);
+                ListenerBootstrap config = new ListenerBootstrap(servletContext);
 
                 ResteasyProviderFactory resteasyProviderFactory = springBeanProcessor.getProviderFactory();
-                ResourceMethodRegistry resourceMethodRegistry = (ResourceMethodRegistry)springBeanProcessor.getRegistry();
+                ResourceMethodRegistry resourceMethodRegistry = (ResourceMethodRegistry) springBeanProcessor.getRegistry();
 
                 deployment = config.createDeployment();
 
-				deployment.setProviderFactory(resteasyProviderFactory);
-				deployment.setRegistry(resourceMethodRegistry);
+                deployment.setProviderFactory(resteasyProviderFactory);
+                deployment.setRegistry(resourceMethodRegistry);
 
-				SynchronousDispatcher dispatcher = new SynchronousDispatcher(resteasyProviderFactory, resourceMethodRegistry);
-				dispatcher.getUnwrappedExceptions().addAll(deployment.getUnwrappedExceptions());
-				deployment.setDispatcher(dispatcher);
+                SynchronousDispatcher dispatcher = new SynchronousDispatcher(resteasyProviderFactory, resourceMethodRegistry);
+                dispatcher.getUnwrappedExceptions().addAll(deployment.getUnwrappedExceptions());
+                deployment.setDispatcher(dispatcher);
 
-				deployment.start();
+                deployment.start();
 
-				servletContext.setAttribute(ResteasyProviderFactory.class.getName(), deployment.getProviderFactory());
-				servletContext.setAttribute(Dispatcher.class.getName(), deployment.getDispatcher());
-				servletContext.setAttribute(Registry.class.getName(), deployment.getRegistry());
-			}
+                servletContext.setAttribute(ResteasyProviderFactory.class.getName(), deployment.getProviderFactory());
+                servletContext.setAttribute(Dispatcher.class.getName(), deployment.getDispatcher());
+                servletContext.setAttribute(Registry.class.getName(), deployment.getRegistry());
+            }
 
-			public void contextDestroyed(ServletContextEvent sce) {
-				if (deployment != null) {
-					deployment.stop();
-				}
-			}
-		};
+            public void contextDestroyed(ServletContextEvent sce) {
+                if (deployment != null) {
+                    deployment.stop();
+                }
+            }
+        };
 
-		logger.debug("ServletContextListener has been created");
+        logger.debug("ServletContextListener has been created");
 
-		return servletContextListener;
-	}
+        return servletContextListener;
+    }
 
-	@Bean(name = ResteasyApplicationBuilder.BEAN_NAME)
-	public ResteasyApplicationBuilder resteasyApplicationBuilder() {
-		return new ResteasyApplicationBuilder();
-	}
+    @Bean(name = ResteasyApplicationBuilder.BEAN_NAME)
+    public ResteasyApplicationBuilder resteasyApplicationBuilder() {
+        return new ResteasyApplicationBuilder();
+    }
 
-	@Bean
-	public static ResteasyEmbeddedServletInitializer resteasyEmbeddedServletInitializer() {
-		return new ResteasyEmbeddedServletInitializer();
-	}
+    @Bean
+    public static ResteasyEmbeddedServletInitializer resteasyEmbeddedServletInitializer() {
+        return new ResteasyEmbeddedServletInitializer();
+    }
 
 }
