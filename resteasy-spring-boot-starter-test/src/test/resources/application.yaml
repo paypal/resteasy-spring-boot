@@ -1,3 +1,2 @@
-endpoints:
-  shutdown:
-    enabled: true
+# This is an intentional empty configuration file.
+# The idea is to override the one provided with the sample application, providing a plain configuration for tests

@@ -11,6 +11,7 @@ import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
@@ -24,87 +25,88 @@ import javax.servlet.ServletContextListener;
 
 /**
  * This is the main class that configures this Resteasy Sring Boot starter
- * 
+ *
  * @author Fabio Carvalho (facarvalho@paypal.com or fabiocarvalho777@gmail.com)
- * 
  */
 @Configuration
 @AutoConfigureAfter(WebMvcAutoConfiguration.class)
 @EnableConfigurationProperties
 public class ResteasySpringBootConfig {
 
-	private static Logger logger = LoggerFactory.getLogger(ResteasySpringBootConfig.class);
+    private static Logger logger = LoggerFactory.getLogger(ResteasySpringBootConfig.class);
 
-	@Bean
-	public BeanFactoryPostProcessor springBeanProcessor() {
-		SpringBeanProcessor springBeanProcessor;
+    @Bean
+    @Qualifier("ResteasyProviderFactory")
+    public static BeanFactoryPostProcessor springBeanProcessor() {
+        ResteasyProviderFactory resteasyProviderFactory = new ResteasyProviderFactory();
+        ResourceMethodRegistry resourceMethodRegistry = new ResourceMethodRegistry(resteasyProviderFactory);
 
-		springBeanProcessor = new SpringBeanProcessor();
+        SpringBeanProcessor springBeanProcessor = new SpringBeanProcessor();
+        springBeanProcessor.setProviderFactory(resteasyProviderFactory);
+        springBeanProcessor.setRegistry(resourceMethodRegistry);
 
-		ResteasyProviderFactory resteasyProviderFactory = new ResteasyProviderFactory();
-		springBeanProcessor.setProviderFactory(resteasyProviderFactory);
-		springBeanProcessor.setRegistry(new ResourceMethodRegistry(resteasyProviderFactory));
+        logger.debug("SpringBeanProcessor has been created");
 
-		logger.debug("SpringBeanProcessor has been created");
+        return springBeanProcessor;
+    }
 
-		return springBeanProcessor;
-	}
+    /**
+     * This is a modified version of {@link ResteasyBootstrap}
+     *
+     * @return a ServletContextListener object that configures and start a ResteasyDeployment
+     */
+    @Bean
+    public ServletContextListener resteasyBootstrapListener(@Qualifier("ResteasyProviderFactory") final BeanFactoryPostProcessor beanFactoryPostProcessor) {
+        ServletContextListener servletContextListener = new ServletContextListener() {
 
-	/**
-	 * This is a modified version of {@link ResteasyBootstrap}
-	 * 
-	 * @return a ServletContextListener object that configures and start a ResteasyDeployment
-	 */
-	@Bean
-	public ServletContextListener resteasyBootstrapListener() {
-		ServletContextListener servletContextListener = new ServletContextListener() {
+            private SpringBeanProcessor springBeanProcessor = (SpringBeanProcessor) beanFactoryPostProcessor;
 
-			private SpringBeanProcessor springBeanProcessor = (SpringBeanProcessor)springBeanProcessor();
-			
-			protected ResteasyDeployment deployment;
+            protected ResteasyDeployment deployment;
 
-			public void contextInitialized(ServletContextEvent sce) {
-				ServletContext servletContext = sce.getServletContext();
+            public void contextInitialized(ServletContextEvent sce) {
+                ServletContext servletContext = sce.getServletContext();
 
-				ListenerBootstrap config = new ListenerBootstrap(servletContext);
+                ListenerBootstrap config = new ListenerBootstrap(servletContext);
 
-				deployment = config.createDeployment();
+                ResteasyProviderFactory resteasyProviderFactory = springBeanProcessor.getProviderFactory();
+                ResourceMethodRegistry resourceMethodRegistry = (ResourceMethodRegistry) springBeanProcessor.getRegistry();
 
-				ResteasyProviderFactory resteasyProviderFactory = springBeanProcessor.getProviderFactory();
-				ResourceMethodRegistry registry = (ResourceMethodRegistry)springBeanProcessor.getRegistry();
-				deployment.setProviderFactory(resteasyProviderFactory);
-				deployment.setRegistry(registry);
+                deployment = config.createDeployment();
 
-				SynchronousDispatcher dispatcher = new SynchronousDispatcher(resteasyProviderFactory, registry);
-				dispatcher.getUnwrappedExceptions().addAll(deployment.getUnwrappedExceptions());
-				deployment.setDispatcher(dispatcher);
+                deployment.setProviderFactory(resteasyProviderFactory);
+                deployment.setRegistry(resourceMethodRegistry);
 
-				deployment.start();
+                SynchronousDispatcher dispatcher = new SynchronousDispatcher(resteasyProviderFactory, resourceMethodRegistry);
+                dispatcher.getUnwrappedExceptions().addAll(deployment.getUnwrappedExceptions());
+                deployment.setDispatcher(dispatcher);
 
-				servletContext.setAttribute(ResteasyProviderFactory.class.getName(), deployment.getProviderFactory());
-				servletContext.setAttribute(Dispatcher.class.getName(), deployment.getDispatcher());
-				servletContext.setAttribute(Registry.class.getName(), deployment.getRegistry());
-			}
+                deployment.start();
 
-			public void contextDestroyed(ServletContextEvent sce) {
-				if (deployment != null) {
-					deployment.stop();
-				}
-			}
-		};
+                servletContext.setAttribute(ResteasyProviderFactory.class.getName(), deployment.getProviderFactory());
+                servletContext.setAttribute(Dispatcher.class.getName(), deployment.getDispatcher());
+                servletContext.setAttribute(Registry.class.getName(), deployment.getRegistry());
+            }
 
-		logger.debug("ServletContextListener has been created");
+            public void contextDestroyed(ServletContextEvent sce) {
+                if (deployment != null) {
+                    deployment.stop();
+                }
+            }
+        };
 
-		return servletContextListener;
-	}
+        logger.debug("ServletContextListener has been created");
 
-	@Bean(name = ResteasyApplicationBuilder.BEAN_NAME)
-	public ResteasyApplicationBuilder resteasyApplicationBuilder() {
-		return new ResteasyApplicationBuilder();
-	}
+        return servletContextListener;
+    }
 
-	@Bean
-	public ResteasyEmbeddedServletInitializer resteasyEmbeddedServletInitializer() {
-		return new ResteasyEmbeddedServletInitializer();
-	}
+    @Bean(name = ResteasyApplicationBuilder.BEAN_NAME)
+    public ResteasyApplicationBuilder resteasyApplicationBuilder() {
+        return new ResteasyApplicationBuilder();
+    }
+
+    @Bean
+    public static ResteasyEmbeddedServletInitializer resteasyEmbeddedServletInitializer() {
+        return new ResteasyEmbeddedServletInitializer();
+    }
+
 }

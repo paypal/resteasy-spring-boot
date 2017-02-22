@@ -38,9 +38,9 @@ public class ResteasySpringBootConfigTest {
 
     @Test
     public void resteasyBootstrapListener() {
-
         ResteasySpringBootConfig resteasySpringBootConfig = new ResteasySpringBootConfig();
-        ServletContextListener servletContextListener = resteasySpringBootConfig.resteasyBootstrapListener();
+        BeanFactoryPostProcessor beanFactoryPostProcessor = ResteasySpringBootConfig.springBeanProcessor();
+        ServletContextListener servletContextListener = resteasySpringBootConfig.resteasyBootstrapListener(beanFactoryPostProcessor);
         Assert.assertNotNull(servletContextListener);
 
         ServletContext servletContext = new MockServletContext();
@@ -58,7 +58,7 @@ public class ResteasySpringBootConfigTest {
 
         // Exercising fully cobertura branch coverage
         servletContextListener.contextDestroyed(sce);
-        ServletContextListener servletContextListener2 = resteasySpringBootConfig.resteasyBootstrapListener();
+        ServletContextListener servletContextListener2 = resteasySpringBootConfig.resteasyBootstrapListener(beanFactoryPostProcessor);
         servletContextListener2.contextDestroyed(sce);
     }
 

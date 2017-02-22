@@ -5,7 +5,7 @@
 
     <groupId>com.paypal.springboot</groupId>
     <artifactId>resteasy-spring-boot-starter</artifactId>
-    <version>2.2.2-RELEASE</version>
+    <version>2.3.0-RELEASE</version>
     <name>${project.artifactId}</name>
 
     <description>A Spring Boot starter for RESTEasy</description>
@@ -42,8 +42,8 @@
     </distributionManagement>
 
     <properties>
-        <springboot.version>1.4.2.RELEASE</springboot.version>
-        <resteasy.version>3.0.19.Final</resteasy.version>
+        <springboot.version>1.5.1.RELEASE</springboot.version>
+        <resteasy.version>3.1.0.Final</resteasy.version>
         <coverage.line>80</coverage.line>
         <coverage.branch>80</coverage.branch>
     </properties>
@@ -62,11 +62,6 @@
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-jaxrs</artifactId>
-            <version>${resteasy.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>async-http-servlet-3.0</artifactId>
             <version>${resteasy.version}</version>
         </dependency>
         <dependency>
