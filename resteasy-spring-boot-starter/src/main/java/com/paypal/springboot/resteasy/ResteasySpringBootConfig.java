@@ -11,6 +11,7 @@ import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
@@ -36,14 +37,14 @@ public class ResteasySpringBootConfig {
 	private static Logger logger = LoggerFactory.getLogger(ResteasySpringBootConfig.class);
 
 	@Bean
-	public BeanFactoryPostProcessor springBeanProcessor() {
-		SpringBeanProcessor springBeanProcessor;
+    @Qualifier("ResteasyProviderFactory")
+	public static BeanFactoryPostProcessor springBeanProcessor() {
+        ResteasyProviderFactory resteasyProviderFactory = new ResteasyProviderFactory();
+        ResourceMethodRegistry resourceMethodRegistry = new ResourceMethodRegistry(resteasyProviderFactory);
 
-		springBeanProcessor = new SpringBeanProcessor();
-
-		ResteasyProviderFactory resteasyProviderFactory = new ResteasyProviderFactory();
+		SpringBeanProcessor springBeanProcessor = new SpringBeanProcessor();
 		springBeanProcessor.setProviderFactory(resteasyProviderFactory);
-		springBeanProcessor.setRegistry(new ResourceMethodRegistry(resteasyProviderFactory));
+		springBeanProcessor.setRegistry(resourceMethodRegistry);
 
 		logger.debug("SpringBeanProcessor has been created");
 
@@ -56,11 +57,11 @@ public class ResteasySpringBootConfig {
 	 * @return a ServletContextListener object that configures and start a ResteasyDeployment
 	 */
 	@Bean
-	public ServletContextListener resteasyBootstrapListener() {
+	public ServletContextListener resteasyBootstrapListener(@Qualifier("ResteasyProviderFactory") final BeanFactoryPostProcessor beanFactoryPostProcessor) {
 		ServletContextListener servletContextListener = new ServletContextListener() {
 
-			private SpringBeanProcessor springBeanProcessor = (SpringBeanProcessor)springBeanProcessor();
-			
+            private SpringBeanProcessor springBeanProcessor = (SpringBeanProcessor) beanFactoryPostProcessor;
+
 			protected ResteasyDeployment deployment;
 
 			public void contextInitialized(ServletContextEvent sce) {
@@ -68,14 +69,15 @@ public class ResteasySpringBootConfig {
 
 				ListenerBootstrap config = new ListenerBootstrap(servletContext);
 
-				deployment = config.createDeployment();
+                ResteasyProviderFactory resteasyProviderFactory = springBeanProcessor.getProviderFactory();
+                ResourceMethodRegistry resourceMethodRegistry = (ResourceMethodRegistry)springBeanProcessor.getRegistry();
 
-				ResteasyProviderFactory resteasyProviderFactory = springBeanProcessor.getProviderFactory();
-				ResourceMethodRegistry registry = (ResourceMethodRegistry)springBeanProcessor.getRegistry();
+                deployment = config.createDeployment();
+
 				deployment.setProviderFactory(resteasyProviderFactory);
-				deployment.setRegistry(registry);
+				deployment.setRegistry(resourceMethodRegistry);
 
-				SynchronousDispatcher dispatcher = new SynchronousDispatcher(resteasyProviderFactory, registry);
+				SynchronousDispatcher dispatcher = new SynchronousDispatcher(resteasyProviderFactory, resourceMethodRegistry);
 				dispatcher.getUnwrappedExceptions().addAll(deployment.getUnwrappedExceptions());
 				deployment.setDispatcher(dispatcher);
 
@@ -104,7 +106,8 @@ public class ResteasySpringBootConfig {
 	}
 
 	@Bean
-	public ResteasyEmbeddedServletInitializer resteasyEmbeddedServletInitializer() {
+	public static ResteasyEmbeddedServletInitializer resteasyEmbeddedServletInitializer() {
 		return new ResteasyEmbeddedServletInitializer();
 	}
+
 }
