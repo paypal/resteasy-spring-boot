@@ -5,6 +5,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.springframework.boot.SpringApplication;
 import org.springframework.util.SocketUtils;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -20,11 +21,20 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 public class ResteasySpringBootStarterIT {
 
     @BeforeClass
-    public void beforeClass() {
+    public void startingApplicationUp() {
         RestAssured.basePath = "sample-app";
         int port = SocketUtils.findAvailableTcpPort();
         RestAssured.port = port;
-        SpringApplication.run(Application.class, "--server.port=" + port).registerShutdownHook();
+
+        SpringApplication springApplication = new SpringApplication(Application.class);
+        springApplication.addListeners(new LogbackTestApplicationListener());
+        springApplication.run("--server.port=" + port).registerShutdownHook();
+    }
+
+    @AfterClass
+    public void shuttingDownApplication() {
+        Response response = given().basePath("/").post("/shutdown");
+        response.then().statusCode(200).body("message", equalTo("Shutting down, bye..."));
     }
 
     @Test
