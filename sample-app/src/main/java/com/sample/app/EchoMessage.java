@@ -1,4 +1,4 @@
-package com.test;
+package com.sample.app;
 
 /**
  * A simple echo message, containing the text to be echoed

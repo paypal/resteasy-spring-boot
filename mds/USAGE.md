@@ -17,7 +17,7 @@ Just define your JAX-RS application class (a subclass of [Application](http://do
 See section [JAX-RS application registration methods](#jax-rs-application-registration-methods) for further information.
 
 ``` java
-package com.test;
+package com.sample.app;
 
 import org.springframework.stereotype.Component;
 import javax.ws.rs.ApplicationPath;

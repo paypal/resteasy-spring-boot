@@ -1,6 +1,6 @@
 package com.paypal.springboot.resteasy;
 
-import com.test.Application;
+import com.sample.app.Application;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.springframework.boot.SpringApplication;

@@ -38,7 +38,7 @@ Just define your JAX-RS application class (a subclass of [Application](http://do
 See section _JAX-RS application registration methods_ in [How to use RESTEasy Spring Boot Starter](mds/USAGE.md) for further information.
 
 ``` java
-package com.test;
+package com.sample.app;
 
 import org.springframework.stereotype.Component;
 import javax.ws.rs.ApplicationPath;

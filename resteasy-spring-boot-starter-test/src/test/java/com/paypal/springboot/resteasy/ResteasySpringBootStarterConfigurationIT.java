@@ -1,6 +1,6 @@
 package com.paypal.springboot.resteasy;
 
-import com.test.Application;
+import com.sample.app.Application;
 import io.restassured.response.Response;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.SpringApplication;
@@ -99,7 +99,7 @@ public class ResteasySpringBootStarterConfigurationIT {
     public void propertySpringBeanClassTest() {
         Properties properties = new Properties();
         properties.put("resteasy.jaxrs.app.registration", "property");
-        properties.put("resteasy.jaxrs.app.classes", "com.test.JaxrsApplication");
+        properties.put("resteasy.jaxrs.app.classes", "com.sample.app.JaxrsApplication");
 
         int port = configureAndStartApp(properties);
 
