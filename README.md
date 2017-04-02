@@ -75,5 +75,5 @@ You are very welcome to contribute to RESTEasy Spring Boot starter! Read our [Co
 ## Contacting us
 To contact us, please send an email to fabiocarvalho777@gmail.com.
 
-##License
+## License
 This project is licensed under the [Apache 2 License](License.html).

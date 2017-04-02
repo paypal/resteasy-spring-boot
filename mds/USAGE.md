@@ -61,7 +61,7 @@ __Important notes__
 1. Property `resteasy.jaxrs.app` has been deprecated and replaced by `resteasy.jaxrs.app.classes` since version *2.2.0-RELEASE* (see [issue 35](https://github.com/paypal/resteasy-spring-boot/issues/35)). Property `resteasy.jaxrs.app` is going to be finally removed in version *3.0.0-RELEASE*.
 
 #### RESTEasy configuration
-RESTEasy offers a few configuration switches, [as seen here](http://docs.jboss.org/resteasy/docs/3.0.17.Final/userguide/html_single/index.html#d4e127), and they are set as Servlet context init parameters. In Spring Boot, Servlet context init parameters are defined via Spring Boot `application.properties` file, using the property prefix `server.context-parameters.*` (search for it in [Spring Boot reference guide](http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)).</br>
+RESTEasy offers a few configuration switches, [as seen here](http://docs.jboss.org/resteasy/docs/3.1.0.Final/userguide/html_single/index.html#configuration_switches), and they are set as Servlet context init parameters. In Spring Boot, Servlet context init parameters are defined via Spring Boot `application.properties` file, using the property prefix `server.context-parameters.*` (search for it in [Spring Boot reference guide](http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)).</br>
 
 As an example, to set RESTEasy property `resteasy.role.based.security` to `true`, just add the property bellow to Spring Boot `application.properties` file.
 
