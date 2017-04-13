@@ -1,20 +1,23 @@
 # Contribution guidelines
 
 ## Basic
-- Open an issue in [GitHub issues](https://github.com/paypal/resteasy-spring-boot/issues)
-- Fork the repo
-- Make sure you checkout the correct development branch
+- If there is not one open already, open an issue in [GitHub issues](https://github.com/paypal/resteasy-spring-boot/issues)
+- Fork this repo
+- Checkout `develop` branch
 - Apply your changes
   - Make sure all projects build and all unit tests pass
   - Make sure code coverage doesn't drop (add extra unit tests if necessary)
+  - If fixing a bug, make sure you add an unit or integration test to expose the issue
+  - If adding a new feature, make sure you add an unit or integration test to test the feature
+  - If adding a new feature, add end user documentation as well
   - Add comments to the code explaining your changes if necessary
 - Create a pull request to the correct development branch (mention the issue id in the PR comments)
 
 ## Code style
-Make sure to follow the code style of the existing code.
+Make sure to follow the code style of the existing code. That means for example four spaces for indentation.
 
 ## Commit messages
-When commiting make sure the commit message is describing what is changed and why. See the example below.
+When committing, make sure the commit message is describing what is changed and why. See the example below.
 
     [issue id] a short description
     A more detailed description
