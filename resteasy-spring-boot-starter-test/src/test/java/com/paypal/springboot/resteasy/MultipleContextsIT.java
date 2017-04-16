@@ -26,7 +26,7 @@ import static org.hamcrest.Matchers.equalTo;
  */
 public class MultipleContextsIT {
 
-    int app1Port, app2Port;
+    private int app1Port, app2Port;
 
     @BeforeClass
     public void setup() {

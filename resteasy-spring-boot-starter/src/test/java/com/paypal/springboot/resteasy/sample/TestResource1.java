@@ -14,6 +14,7 @@ public class TestResource1 {
 
     @GET
     public void get() {
+        // Test get method
     }
 
 }
