@@ -29,7 +29,7 @@ public class MultipleContextsIT {
     private int app1Port, app2Port;
 
     @BeforeClass
-    public void setup() {
+    public void setUp() {
         app1Port = SocketUtils.findAvailableTcpPort();
         app2Port = SocketUtils.findAvailableTcpPort();
 
