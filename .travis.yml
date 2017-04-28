@@ -9,7 +9,7 @@ install: mvn install
 after_success:
   # Installing Codacy code coverage reporter upload tool
   # This is a workaround until [this issue here](https://github.com/codacy/codacy-coverage-reporter/issues/49) is not solved.
-  - curl -sL http://search.maven.org/remotecontent?filepath=com/codacy/codacy-coverage-reporter/1.0.13/codacy-coverage-reporter-1.0.13.jar > ccr.jar
+  - wget https://github.com/codacy/codacy-coverage-reporter/releases/download/1.0.13/codacy-coverage-reporter-1.0.13-assembly.jar -O ccr.jar
   # Uploading Cobertura report to Codacy
   - java -cp ccr.jar com.codacy.CodacyCoverageReporter -l Java -r ./resteasy-spring-boot-starter/target/site/cobertura/coverage.xml --projectToken $CODACY_PROJECT_TOKEN
   # Deploying SNAPSHOT artifacts to Maven Central
