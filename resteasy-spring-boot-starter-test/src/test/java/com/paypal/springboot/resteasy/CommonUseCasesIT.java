@@ -14,11 +14,12 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
 /**
- * This is an integration test based on a simple sample application (see sample-app project)
+ * This is an integration test based on a simple sample application and
+ * very common use cases (see sample-app project)
  *
  * @author facarvalho
  */
-public class ResteasySpringBootStarterIT {
+public class CommonUseCasesIT {
 
     @BeforeClass
     public void startingApplicationUp() {

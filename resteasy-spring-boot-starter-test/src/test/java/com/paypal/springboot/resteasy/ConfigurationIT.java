@@ -20,7 +20,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
  *
  * @author facarvalho
  */
-public class ResteasySpringBootStarterConfigurationIT {
+public class ConfigurationIT {
 
     private int configureAndStartApp(Properties properties) {
         return configureAndStartApp(properties, true);
