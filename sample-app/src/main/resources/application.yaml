@@ -2,4 +2,4 @@ resteasy:
   jaxrs:
     app:
       registration: property
-      classes: com.test.JaxrsApplication
+      classes: com.sample.app.JaxrsApplication

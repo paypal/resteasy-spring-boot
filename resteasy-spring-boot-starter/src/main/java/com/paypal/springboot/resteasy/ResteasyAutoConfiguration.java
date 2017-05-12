@@ -31,9 +31,9 @@ import javax.servlet.ServletContextListener;
 @Configuration
 @AutoConfigureAfter(WebMvcAutoConfiguration.class)
 @EnableConfigurationProperties
-public class ResteasySpringBootConfig {
+public class ResteasyAutoConfiguration {
 
-    private static Logger logger = LoggerFactory.getLogger(ResteasySpringBootConfig.class);
+    private static Logger logger = LoggerFactory.getLogger(ResteasyAutoConfiguration.class);
 
     @Bean
     @Qualifier("ResteasyProviderFactory")

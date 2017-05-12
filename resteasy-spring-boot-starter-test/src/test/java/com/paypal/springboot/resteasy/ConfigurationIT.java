@@ -1,6 +1,6 @@
 package com.paypal.springboot.resteasy;
 
-import com.test.Application;
+import com.sample.app.Application;
 import io.restassured.response.Response;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.SpringApplication;
@@ -20,10 +20,17 @@ import static org.hamcrest.CoreMatchers.notNullValue;
  *
  * @author facarvalho
  */
-public class ResteasySpringBootStarterConfigurationIT {
+public class ConfigurationIT {
 
     private int configureAndStartApp(Properties properties) {
+        return configureAndStartApp(properties, true);
+    }
+
+    private int configureAndStartApp(Properties properties, boolean assertPerfectLog) {
         SpringApplication springApplication = new SpringApplication(Application.class);
+        if (assertPerfectLog) {
+            springApplication.addListeners(new LogbackTestApplicationListener());
+        }
         if (properties != null) {
             springApplication.setDefaultProperties(properties);
         }
@@ -32,6 +39,11 @@ public class ResteasySpringBootStarterConfigurationIT {
         springApplication.run("--server.port=" + port).registerShutdownHook();
 
         return port;
+    }
+
+    private void appShutdown(int port) {
+        Response response = given().basePath("/").port(port).post("/shutdown");
+        response.then().statusCode(200).body("message", equalTo("Shutting down, bye..."));
     }
 
     private void assertResourceFound(int port, String basePath) {
@@ -51,6 +63,8 @@ public class ResteasySpringBootStarterConfigurationIT {
         assertResourceFound(port, "sample-app");
         assertResourceNotFound(port, "sample-app-test");
         assertResourceNotFound(port, "/");
+
+        appShutdown(port);
     }
 
     @Test
@@ -63,6 +77,8 @@ public class ResteasySpringBootStarterConfigurationIT {
         assertResourceFound(port, "sample-app");
         assertResourceNotFound(port, "sample-app-test");
         assertResourceNotFound(port, "/");
+
+        appShutdown(port);
     }
 
     @Test
@@ -75,19 +91,23 @@ public class ResteasySpringBootStarterConfigurationIT {
         assertResourceFound(port, "sample-app");
         assertResourceNotFound(port, "sample-app-test");
         assertResourceNotFound(port, "/");
+
+        appShutdown(port);
     }
 
     @Test
     public void propertySpringBeanClassTest() {
         Properties properties = new Properties();
         properties.put("resteasy.jaxrs.app.registration", "property");
-        properties.put("resteasy.jaxrs.app.classes", "com.test.JaxrsApplication");
+        properties.put("resteasy.jaxrs.app.classes", "com.sample.app.JaxrsApplication");
 
         int port = configureAndStartApp(properties);
 
         assertResourceFound(port, "sample-app");
         assertResourceNotFound(port, "sample-app-test");
         assertResourceNotFound(port, "/");
+
+        appShutdown(port);
     }
 
     @Test
@@ -101,6 +121,8 @@ public class ResteasySpringBootStarterConfigurationIT {
         assertResourceNotFound(port, "sample-app");
         assertResourceFound(port, "sample-app-test");
         assertResourceNotFound(port, "/");
+
+        appShutdown(port);
     }
 
     @Test
@@ -110,7 +132,7 @@ public class ResteasySpringBootStarterConfigurationIT {
         properties.put("resteasy.jaxrs.app.classes", "com.foor.bar.NonExistentApplicationClass");
 
         try {
-            configureAndStartApp(properties);
+            configureAndStartApp(properties, false);
 
             Assert.fail("Expected exception, due to class not found, has not been thrown");
         } catch (BeansException ex) {
@@ -129,6 +151,8 @@ public class ResteasySpringBootStarterConfigurationIT {
         assertResourceFound(port, "sample-app");
         assertResourceFound(port, "sample-app-test");
         assertResourceNotFound(port, "/");
+
+        appShutdown(port);
     }
 
 }

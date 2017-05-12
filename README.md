@@ -28,7 +28,7 @@ Add the Maven dependency below to your Spring Boot application pom file.<br>
 <dependency>
    <groupId>com.paypal.springboot</groupId>
    <artifactId>resteasy-spring-boot-starter</artifactId>
-   <version>2.3.0-RELEASE</version>
+   <version>2.3.1-RELEASE</version>
    <scope>runtime</scope>
 </dependency>
 ```
@@ -38,7 +38,7 @@ Just define your JAX-RS application class (a subclass of [Application](http://do
 See section _JAX-RS application registration methods_ in [How to use RESTEasy Spring Boot Starter](mds/USAGE.md) for further information.
 
 ``` java
-package com.test;
+package com.sample.app;
 
 import org.springframework.stereotype.Component;
 import javax.ws.rs.ApplicationPath;
@@ -62,11 +62,9 @@ See [RESTEasy Spring Boot starter release notes](mds/RELEASE_NOTES.md).
 
 ## Projects
 
-##### sample-app
-A simple Spring Boot application that exposes JAX-RS endpoints as Spring beans using RESTEasy via this RESTEasy Spring Boot starter.
-
-##### resteasy-spring-boot-starter
-The RESTEasy Spring Boot Starter project.
+  - **sample-app**: A simple Spring Boot application that exposes JAX-RS endpoints as Spring beans using RESTEasy via this RESTEasy Spring Boot starter.
+  - **resteasy-spring-boot-starter**: The RESTEasy Spring Boot Starter project.
+  - **resteasy-spring-boot-starter-test**: Integration tests for the RESTEasy Spring Boot Starter project.
 
 ## Reporting an issue
 Please open an issue using our [GitHub issues](https://github.com/paypal/resteasy-spring-boot/issues) page.
@@ -77,5 +75,5 @@ You are very welcome to contribute to RESTEasy Spring Boot starter! Read our [Co
 ## Contacting us
 To contact us, please send an email to fabiocarvalho777@gmail.com.
 
-##License
+## License
 This project is licensed under the [Apache 2 License](License.html).
