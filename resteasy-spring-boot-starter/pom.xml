@@ -42,6 +42,8 @@
     </distributionManagement>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <springboot.version>1.5.1.RELEASE</springboot.version>
         <resteasy.version>3.1.0.Final</resteasy.version>
         <coverage.line>80</coverage.line>
