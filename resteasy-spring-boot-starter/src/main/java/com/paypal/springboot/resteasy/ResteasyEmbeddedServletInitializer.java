@@ -22,14 +22,14 @@ import java.util.Set;
 
 /**
  * This is a Spring version of {@link ResteasyServletInitializer}.
- * It does not register the servlets though, that is done by {@link ResteasyApplicationBuilder}
+ * It does not register the servlets though, that is done by {@link RestEasyApplicationBuilder}
  * It only finds the JAX-RS Application classes (by scanning the classpath), and
  * the JAX-RS Path and Provider annotated Spring beans, and then register the
  * Spring bean definitions that represent each servlet registration.
  *
  * @author Fabio Carvalho (facarvalho@paypal.com or fabiocarvalho777@gmail.com)
  */
-public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProcessor {
+public class RestEasyEmbeddedServletInitializer implements BeanFactoryPostProcessor {
 
     private static final String JAXRS_APP_CLASSES_DEFINITION_PROPERTY = "resteasy.jaxrs.app.registration";
     private static final String JAXRS_APP_CLASSES_PROPERTY = "resteasy.jaxrs.app.classes";
@@ -45,7 +45,7 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
     private Set<Class<?>> allResources = new HashSet<Class<?>>();
     private Set<Class<?>> providers = new HashSet<Class<?>>();
 
-    private static final Logger logger = LoggerFactory.getLogger(ResteasyEmbeddedServletInitializer.class);
+    private static final Logger logger = LoggerFactory.getLogger(RestEasyEmbeddedServletInitializer.class);
 
     private enum JaxrsAppClassesRegistration {
         BEANS, PROPERTY, SCANNING, AUTO
@@ -280,7 +280,7 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
      */
     private GenericBeanDefinition createApplicationServlet(Class<? extends Application> applicationClass, String path) {
         GenericBeanDefinition applicationServletBean = new GenericBeanDefinition();
-        applicationServletBean.setFactoryBeanName(ResteasyApplicationBuilder.BEAN_NAME);
+        applicationServletBean.setFactoryBeanName(RestEasyApplicationBuilder.BEAN_NAME);
         applicationServletBean.setFactoryMethodName("build");
 
         Set<Class<?>> resources = allResources;

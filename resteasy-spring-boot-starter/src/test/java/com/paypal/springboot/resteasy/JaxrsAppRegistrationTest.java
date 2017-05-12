@@ -132,8 +132,8 @@ public class JaxrsAppRegistrationTest {
         ConfigurableListableBeanFactory beanFactory = mock(ConfigurableListableBeanFactory.class);
         when(beanFactory.getBean(ConfigurableEnvironment.class)).thenReturn(configurableEnvironmentMock);
 
-        ResteasyEmbeddedServletInitializer resteasyEmbeddedServletInitializer = new ResteasyEmbeddedServletInitializer();
-        resteasyEmbeddedServletInitializer.postProcessBeanFactory(beanFactory);
+        RestEasyEmbeddedServletInitializer restEasyEmbeddedServletInitializer = new RestEasyEmbeddedServletInitializer();
+        restEasyEmbeddedServletInitializer.postProcessBeanFactory(beanFactory);
     }
 
     @Test(expectedExceptions = BeansException.class)
@@ -145,8 +145,8 @@ public class JaxrsAppRegistrationTest {
         ConfigurableListableBeanFactory beanFactory = mock(ConfigurableListableBeanFactory.class);
         when(beanFactory.getBean(ConfigurableEnvironment.class)).thenReturn(configurableEnvironmentMock);
 
-        ResteasyEmbeddedServletInitializer resteasyEmbeddedServletInitializer = new ResteasyEmbeddedServletInitializer();
-        resteasyEmbeddedServletInitializer.postProcessBeanFactory(beanFactory);
+        RestEasyEmbeddedServletInitializer restEasyEmbeddedServletInitializer = new RestEasyEmbeddedServletInitializer();
+        restEasyEmbeddedServletInitializer.postProcessBeanFactory(beanFactory);
     }
 
     @Test
@@ -195,8 +195,8 @@ public class JaxrsAppRegistrationTest {
         boolean findSpringBeans = (definition == null || definition.equals("auto") || definition.equals("beans"));
         boolean getAppsProperty = (definition == null || definition.equals("auto") || definition.equals("property"));
 
-        ResteasyEmbeddedServletInitializer resteasyEmbeddedServletInitializer = new ResteasyEmbeddedServletInitializer();
-        resteasyEmbeddedServletInitializer.postProcessBeanFactory(beanFactory);
+        RestEasyEmbeddedServletInitializer restEasyEmbeddedServletInitializer = new RestEasyEmbeddedServletInitializer();
+        restEasyEmbeddedServletInitializer.postProcessBeanFactory(beanFactory);
 
         verify(beanFactory, VerificationModeFactory.times(getAppsProperty ? 2 : 1)).getBean(ConfigurableEnvironment.class);
         verify(beanFactory, VerificationModeFactory.times(findSpringBeans ? 1 : 0)).getBeansOfType(Application.class, true, false);
