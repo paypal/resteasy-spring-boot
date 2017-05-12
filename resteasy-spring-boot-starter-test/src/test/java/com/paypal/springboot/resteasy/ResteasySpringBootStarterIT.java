@@ -17,7 +17,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
  *
  * @author facarvalho
  */
-public class ResteasySpringBootStarterIT {
+public class RestEasySpringBootStarterIT {
 
     @BeforeClass
     public void beforeClass() {

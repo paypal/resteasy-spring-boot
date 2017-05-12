@@ -20,7 +20,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
  *
  * @author facarvalho
  */
-public class ResteasySpringBootStarterConfigurationIT {
+public class RestEasySpringBootStarterConfigurationIT {
 
     private int configureAndStartApp(Properties properties) {
         SpringApplication springApplication = new SpringApplication(Application.class);
