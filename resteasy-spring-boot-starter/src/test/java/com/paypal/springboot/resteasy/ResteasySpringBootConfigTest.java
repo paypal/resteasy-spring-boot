@@ -18,11 +18,11 @@ import javax.servlet.ServletContextListener;
  * Created by facarvalho on 11/24/15.
  * @author Fabio Carvalho (facarvalho@paypal.com or fabiocarvalho777@gmail.com)
  */
-public class RestEasyAutoConfigurationTest {
+public class ResteasySpringBootConfigTest {
 
     @Test
     public void springBeanProcessor() {
-        BeanFactoryPostProcessor beanFactoryPostProcessor = new RestEasyAutoConfiguration().springBeanProcessor();
+        BeanFactoryPostProcessor beanFactoryPostProcessor = new ResteasySpringBootConfig().springBeanProcessor();
 
         Assert.assertNotNull(beanFactoryPostProcessor);
         Assert.assertEquals(SpringBeanProcessor.class, beanFactoryPostProcessor.getClass());
@@ -38,9 +38,9 @@ public class RestEasyAutoConfigurationTest {
 
     @Test
     public void resteasyBootstrapListener() {
-        RestEasyAutoConfiguration restEasyAutoConfiguration = new RestEasyAutoConfiguration();
-        BeanFactoryPostProcessor beanFactoryPostProcessor = RestEasyAutoConfiguration.springBeanProcessor();
-        ServletContextListener servletContextListener = restEasyAutoConfiguration.resteasyBootstrapListener(beanFactoryPostProcessor);
+        ResteasySpringBootConfig resteasySpringBootConfig = new ResteasySpringBootConfig();
+        BeanFactoryPostProcessor beanFactoryPostProcessor = ResteasySpringBootConfig.springBeanProcessor();
+        ServletContextListener servletContextListener = resteasySpringBootConfig.resteasyBootstrapListener(beanFactoryPostProcessor);
         Assert.assertNotNull(servletContextListener);
 
         ServletContext servletContext = new MockServletContext();
@@ -58,7 +58,7 @@ public class RestEasyAutoConfigurationTest {
 
         // Exercising fully cobertura branch coverage
         servletContextListener.contextDestroyed(sce);
-        ServletContextListener servletContextListener2 = restEasyAutoConfiguration.resteasyBootstrapListener(beanFactoryPostProcessor);
+        ServletContextListener servletContextListener2 = resteasySpringBootConfig.resteasyBootstrapListener(beanFactoryPostProcessor);
         servletContextListener2.contextDestroyed(sce);
     }
 

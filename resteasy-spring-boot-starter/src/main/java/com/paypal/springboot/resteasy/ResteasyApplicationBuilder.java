@@ -33,11 +33,11 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
  *
  * @author Fabio Carvalho (facarvalho@paypal.com or fabiocarvalho777@gmail.com)
  */
-public class RestEasyApplicationBuilder {
+public class ResteasyApplicationBuilder {
 
 	public static final String BEAN_NAME = "JaxrsApplicationServletBuilder";
 
-	private static final Logger logger = LoggerFactory.getLogger(RestEasyApplicationBuilder.class);
+	private static final Logger logger = LoggerFactory.getLogger(ResteasyApplicationBuilder.class);
 
 	public ServletRegistrationBean build(String applicationClassName, String path, Set<Class<?>> resources, Set<Class<?>> providers) {
 		Servlet servlet = new HttpServlet30Dispatcher();

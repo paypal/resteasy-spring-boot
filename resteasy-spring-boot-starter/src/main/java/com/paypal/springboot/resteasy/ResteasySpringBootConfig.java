@@ -31,9 +31,9 @@ import javax.servlet.ServletContextListener;
 @Configuration
 @AutoConfigureAfter(WebMvcAutoConfiguration.class)
 @EnableConfigurationProperties
-public class RestEasyAutoConfiguration {
+public class ResteasySpringBootConfig {
 
-    private static Logger logger = LoggerFactory.getLogger(RestEasyAutoConfiguration.class);
+    private static Logger logger = LoggerFactory.getLogger(ResteasySpringBootConfig.class);
 
     @Bean
     @Qualifier("ResteasyProviderFactory")
@@ -99,14 +99,14 @@ public class RestEasyAutoConfiguration {
         return servletContextListener;
     }
 
-    @Bean(name = RestEasyApplicationBuilder.BEAN_NAME)
-    public RestEasyApplicationBuilder resteasyApplicationBuilder() {
-        return new RestEasyApplicationBuilder();
+    @Bean(name = ResteasyApplicationBuilder.BEAN_NAME)
+    public ResteasyApplicationBuilder resteasyApplicationBuilder() {
+        return new ResteasyApplicationBuilder();
     }
 
     @Bean
-    public static RestEasyEmbeddedServletInitializer resteasyEmbeddedServletInitializer() {
-        return new RestEasyEmbeddedServletInitializer();
+    public static ResteasyEmbeddedServletInitializer resteasyEmbeddedServletInitializer() {
+        return new ResteasyEmbeddedServletInitializer();
     }
 
 }

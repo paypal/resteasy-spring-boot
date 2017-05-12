@@ -15,7 +15,7 @@ import java.util.Map;
  * @author Fabio Carvalho (facarvalho@paypal.com or fabiocarvalho777@gmail.com)
  */
 @ContextConfiguration("classpath:test-config.xml")
-public class RestEasyEmbeddedServletInitializerTest extends AbstractTestNGSpringContextTests {
+public class ResteasyEmbeddedServletInitializerTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private ApplicationContext applicationContext;
