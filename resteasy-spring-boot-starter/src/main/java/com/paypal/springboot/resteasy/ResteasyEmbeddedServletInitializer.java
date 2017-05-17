@@ -10,6 +10,7 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.ConstructorArgumentValues;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
+import org.springframework.boot.autoconfigure.AutoConfigurationPackages;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.env.ConfigurableEnvironment;
 
@@ -91,10 +92,6 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
                 findJaxrsApplicationProperty(beanFactory);
                 break;
             case SCANNING:
-                // TODO
-                // Remove this warning after implementing
-                // https://github.com/paypal/resteasy-spring-boot/issues/69
-                logger.warn("\n-------------\nStarting on version 3.0.0, the behavior of the `scanning` JAX-RS Application subclass registration method will change, being more restrictive.\nInstead of scanning the whole classpath, it will scan only packages registered to be scanned by Spring framework (regardless of the JAX-RS Application subclass being a Spring bean or not). The reason is to improve application startup performance.\nHaving said that, it is recommended that every application use any method, other than `scanning`. Or, if using `scanning`, make sure your JAX-RS Application subclass is under a package to be scanned by Spring framework. If not, starting on version 3.0.0,it won't be found.\n-------------");
                 findJaxrsApplicationScanning(beanFactory);
                 break;
             default:
@@ -198,12 +195,7 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
      * Return the name of the packages to be scanned by Spring framework
      */
     private List<String> getSpringApplicationPackages(BeanFactory beanFactory) {
-        // TODO
-        // See https://github.com/paypal/resteasy-spring-boot/issues/69
-
-        List<String> packages = new ArrayList<String>();
-        packages.add("");
-        return packages;
+        return AutoConfigurationPackages.get(beanFactory);
     }
 
     /*

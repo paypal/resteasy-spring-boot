@@ -148,9 +148,20 @@ public class ConfigurationIT {
 
         int port = configureAndStartApp(properties);
 
+        // The real application, everything should work normally
         assertResourceFound(port, "sample-app");
-        assertResourceFound(port, "sample-app-test");
+
+        // This resource should NOT be found because this JAX-RS Application
+        // subclass is in a package that is NOT in the list of packages
+        // to be scanned by Spring framework
+        assertResourceNotFound(port, "sample-app-test");
+
+        // This resource should be found because this JAX-RS Application
+        // subclass is actually in a package that is in the list of packages
+        // to be scanned by Spring framework, since it is pig-backing in
+        // the com.sample.app Application (its actual package is com.sample.app.test)
         assertResourceFound(port, "sample-app-test-two");
+
         assertResourceNotFound(port, "/");
 
         appShutdown(port);

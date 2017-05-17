@@ -26,18 +26,13 @@ public class LogbackTestApplicationListener implements SmartApplicationListener 
     private boolean warningOrErrorFound = false;
 
     private Appender<ILoggingEvent> appender = new AppenderBase<ILoggingEvent>() {
-
-        // TODO
-        // Remove this after implementing https://github.com/paypal/resteasy-spring-boot/issues/69
-        private static final java.lang.String SCANNING_WARNING = "\n-------------\nStarting on version 3.0.0, the behavior of the `scanning`";
-
         @Override
         protected void append(ILoggingEvent event) {
             if (event == null || warningOrErrorFound) {
                 return;
             }
             Level level = event.getLevel();
-            if ((level.equals(Level.WARN) || level.equals(Level.ERROR)) && !event.getMessage().startsWith(SCANNING_WARNING)) {
+            if (level.equals(Level.WARN) || level.equals(Level.ERROR)) {
                 warningOrErrorFound = true;
                 Assert.fail(event.getFormattedMessage());
             }
