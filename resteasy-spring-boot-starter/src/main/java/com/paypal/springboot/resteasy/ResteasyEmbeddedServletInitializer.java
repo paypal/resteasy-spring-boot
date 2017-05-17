@@ -4,6 +4,7 @@ import org.jboss.resteasy.plugins.servlet.ResteasyServletInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.ConstructorArgumentValues;
@@ -16,9 +17,7 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.ext.Provider;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This is a Spring version of {@link ResteasyServletInitializer}.
@@ -51,7 +50,7 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
         BEANS, PROPERTY, SCANNING, AUTO
     }
 
-    /**
+    /*
      * Find the JAX-RS application classes.
      * This is done by one of these three options in this order:
      *
@@ -83,7 +82,7 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
             case AUTO:
                 findJaxrsApplicationBeans(beanFactory);
                 if(applications.size() == 0) findJaxrsApplicationProperty(beanFactory);
-                if(applications.size() == 0) findJaxrsApplicationScanning();
+                if(applications.size() == 0) findJaxrsApplicationScanning(beanFactory);
                 break;
             case BEANS:
                 findJaxrsApplicationBeans(beanFactory);
@@ -92,7 +91,11 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
                 findJaxrsApplicationProperty(beanFactory);
                 break;
             case SCANNING:
-                findJaxrsApplicationScanning();
+                // TODO
+                // Remove this warning after implementing
+                // https://github.com/paypal/resteasy-spring-boot/issues/69
+                logger.warn("\n-------------\nStarting on version 3.0.0, the behavior of the `scanning` JAX-RS Application subclass registration method will change, being more restrictive.\nInstead of scanning the whole classpath, it will scan only packages registered to be scanned by Spring framework (regardless of the JAX-RS Application subclass being a Spring bean or not). The reason is to improve application startup performance.\nHaving said that, it is recommended that every application use any method, other than `scanning`. Or, if using `scanning`, make sure your JAX-RS Application subclass is under a package to be scanned by Spring framework. If not, starting on version 3.0.0,it won't be found.\n-------------");
+                findJaxrsApplicationScanning(beanFactory);
                 break;
             default:
                 logger.error("JAX-RS application registration method (%s) not known, no application will be registered", registration.name());
@@ -125,7 +128,7 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
         return registration;
     }
 
-    /**
+    /*
      * Find JAX-RS application classes by searching for their related
      * Spring beans
      *
@@ -145,7 +148,7 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
         }
     }
 
-    /**
+    /*
      * Find JAX-RS application classes via property {@code resteasy.jaxrs.app.classes}
      */
     private void findJaxrsApplicationProperty(ConfigurableListableBeanFactory beanFactory) {
@@ -177,18 +180,33 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
         }
     }
 
-    /**
-     * Find JAX-RS application classes by scanning the class-path
+    /*
+     * Find JAX-RS application classes by scanning the classpath under
+     * packages already marked to be scanned by Spring framework
      */
-    private void findJaxrsApplicationScanning() {
-        Set<Class<? extends Application>> applications = JaxrsApplicationScanner.getApplications();
+    private void findJaxrsApplicationScanning(BeanFactory beanFactory) {
+        List<String> packagesToBeScanned = getSpringApplicationPackages(beanFactory);
+
+        Set<Class<? extends Application>> applications = JaxrsApplicationScanner.getApplications(packagesToBeScanned);
         if(applications == null || applications.size() == 0) {
             return;
         }
         this.applications.addAll(applications);
     }
 
-    /**
+    /*
+     * Return the name of the packages to be scanned by Spring framework
+     */
+    private List<String> getSpringApplicationPackages(BeanFactory beanFactory) {
+        // TODO
+        // See https://github.com/paypal/resteasy-spring-boot/issues/69
+
+        List<String> packages = new ArrayList<String>();
+        packages.add("");
+        return packages;
+    }
+
+    /*
      * Search for JAX-RS resource and provider Spring beans,
      * which are the ones whose classes are annotated with
      * {@link Path} or {@link Provider} respectively
