@@ -1,15 +1,20 @@
 package com.paypal.springboot.resteasy;
 
 import com.paypal.springboot.resteasy.sample.*;
-
-import static org.mockito.Mockito.*;
-
 import org.mockito.internal.verification.VerificationModeFactory;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.api.mockito.mockpolicies.Slf4jMockPolicy;
+import org.powermock.core.classloader.annotations.MockPolicy;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.testng.PowerMockTestCase;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
+import org.springframework.boot.autoconfigure.AutoConfigurationPackages;
 import org.springframework.core.env.ConfigurableEnvironment;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import javax.ws.rs.Path;
@@ -17,11 +22,15 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.ext.Provider;
 import java.util.*;
 
+import static org.mockito.Mockito.*;
+
 /**
  * Created by facarvalho on 7/19/16.
  * @author Fabio Carvalho (facarvalho@paypal.com or fabiocarvalho777@gmail.com)
  */
-public class JaxrsAppRegistrationTest {
+@PrepareForTest(AutoConfigurationPackages.class)
+@MockPolicy(Slf4jMockPolicy.class)
+public class JaxrsAppRegistrationTest extends PowerMockTestCase {
 
     private static final String DEFINITION_PROPERTY = "resteasy.jaxrs.app.registration";
     private static final String APP_CLASSES_PROPERTY = "resteasy.jaxrs.app.classes";
@@ -40,6 +49,14 @@ public class JaxrsAppRegistrationTest {
         _allPossibleAppClasses.add(Application.class);
 
         allPossibleAppClasses = Collections.unmodifiableSet(_allPossibleAppClasses);
+    }
+
+    @BeforeMethod
+    public void beforeTest() {
+        PowerMockito.mockStatic(AutoConfigurationPackages.class);
+        List<String> packages = new ArrayList<String>();
+        packages.add("com.paypal.springboot.resteasy.sample");
+        PowerMockito.when(AutoConfigurationPackages.get(any(BeanFactory.class))).thenReturn(packages);
     }
 
     @Test

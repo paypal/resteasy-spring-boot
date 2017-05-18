@@ -150,6 +150,7 @@ public class ConfigurationIT {
 
         assertResourceFound(port, "sample-app");
         assertResourceFound(port, "sample-app-test");
+        assertResourceFound(port, "sample-app-test-two");
         assertResourceNotFound(port, "/");
 
         appShutdown(port);

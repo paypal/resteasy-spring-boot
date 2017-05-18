@@ -15,6 +15,9 @@ TBD
 #### Bug fixes
 TBD
 
+#### Important notes
+1. Starting on version 3.0.0, the behavior of the `scanning` JAX-RS Application subclass registration method will change, being more restrictive. Instead of scanning the whole classpath, it will scan only packages registered to be scanned by Spring framework (regardless of the JAX-RS Application subclass being a Spring bean or not). The reason is to improve application startup performance. Having said that, it is recommended that every application use any method, other than `scanning`. Or, if using `scanning`, make sure your JAX-RS Application subclass is under a package to be scanned by Spring framework. If not, starting on version 3.0.0,it won't be found.
+
 ## 2.3.1-RELEASE
 
 #### Release date
