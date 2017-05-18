@@ -301,7 +301,7 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
         applicationServletBean.setFactoryBeanName(ResteasyApplicationBuilder.BEAN_NAME);
         applicationServletBean.setFactoryMethodName("build");
 
-        Set<Class<?>> resources = allResources;
+        Set<Class<?>> resources = getApplicationResourceClasses(applicationClass);
 
         ConstructorArgumentValues values = new ConstructorArgumentValues();
         values.addIndexedArgumentValue(0, applicationClass.getName());
@@ -314,6 +314,48 @@ public class ResteasyEmbeddedServletInitializer implements BeanFactoryPostProces
         applicationServletBean.setScope("singleton");
 
         return applicationServletBean;
+    }
+
+    private Set<Class<?>> getApplicationResourceClasses(Class<? extends Application> applicationClass) {
+        Application application;
+
+        try {
+            application = applicationClass.newInstance();
+        } catch (Exception e) {
+            logger.warn("Not able to identify specific application class (" + applicationClass.getSimpleName() + ") resources, returning all instead", e);
+            return allResources;
+        }
+
+        Set<Class<?>> classes = application.getClasses();
+        Set<Object> singletons = application.getSingletons();
+
+        if ((classes == null || classes.size() == 0) && (singletons == null || singletons.size() == 0)) {
+            // This should be the case for most applications, which relies on resources scanning,
+            // instead of manually registering the resources
+            return allResources;
+        }
+
+        Set<Class<?>> resources = new HashSet<Class<?>>();
+
+        if(classes != null) {
+            for(Class clazz : classes) {
+                if(AnnotationUtils.findAnnotation(clazz, Path.class) != null) {
+                    resources.add(clazz);
+                }
+            }
+        }
+
+        if(singletons != null) {
+            for(Object singleton : singletons) {
+                if(AnnotationUtils.findAnnotation(singleton.getClass(), Path.class) != null) {
+                    resources.add(singleton.getClass());
+                }
+            }
+        }
+
+        logger.debug("Application class " + applicationClass.getSimpleName() + " has " + resources.size() + " specific resources");
+
+        return resources;
     }
 
 }
