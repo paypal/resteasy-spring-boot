@@ -6,7 +6,7 @@
 TBD
 
 #### Third-party versions
-- RESTEasy: TBD
+- RESTEasy: 3.1.3.Final
 - Spring Boot: TBD
 
 #### New features and enhancements
