@@ -3,17 +3,19 @@
 ## 2.3.2-RELEASE
 
 #### Release date
-TBD
+June 5th, 2017.
 
 #### Third-party versions
 - RESTEasy: 3.1.3.Final
-- Spring Boot: TBD
+- Spring Boot: 1.5.3.RELEASE
 
 #### New features and enhancements
-TBD
+1. [61 - Adding support for RESTEasy Asynchronous Job Service](https://github.com/paypal/resteasy-spring-boot/issues/61)
+1. [65 - Use Spring Framework scanning facility in JaxrsApplicationScanner](https://github.com/paypal/resteasy-spring-boot/issues/65)
+1. [72 - Upgrade RESTEasy to version 3.1.3.Final](https://github.com/paypal/resteasy-spring-boot/issues/72)
 
 #### Bug fixes
-TBD
+None
 
 #### Important notes
 1. Starting on version 3.0.0, the behavior of the `scanning` JAX-RS Application subclass registration method will change, being more restrictive. Instead of scanning the whole classpath, it will scan only packages registered to be scanned by Spring framework (regardless of the JAX-RS Application subclass being a Spring bean or not). The reason is to improve application startup performance. Having said that, it is recommended that every application use any method, other than `scanning`. Or, if using `scanning`, make sure your JAX-RS Application subclass is under a package to be scanned by Spring framework. If not, starting on version 3.0.0,it won't be found.
