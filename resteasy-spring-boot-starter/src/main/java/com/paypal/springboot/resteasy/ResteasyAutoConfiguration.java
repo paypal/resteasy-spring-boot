@@ -1,5 +1,6 @@
 package com.paypal.springboot.resteasy;
 
+import org.jboss.resteasy.core.AsynchronousDispatcher;
 import org.jboss.resteasy.core.Dispatcher;
 import org.jboss.resteasy.core.ResourceMethodRegistry;
 import org.jboss.resteasy.core.SynchronousDispatcher;
@@ -76,9 +77,13 @@ public class ResteasyAutoConfiguration {
                 deployment.setProviderFactory(resteasyProviderFactory);
                 deployment.setRegistry(resourceMethodRegistry);
 
-                SynchronousDispatcher dispatcher = new SynchronousDispatcher(resteasyProviderFactory, resourceMethodRegistry);
-                dispatcher.getUnwrappedExceptions().addAll(deployment.getUnwrappedExceptions());
-                deployment.setDispatcher(dispatcher);
+                if (deployment.isAsyncJobServiceEnabled()) {
+                    AsynchronousDispatcher dispatcher = new AsynchronousDispatcher(resteasyProviderFactory, resourceMethodRegistry);
+                    deployment.setDispatcher(dispatcher);
+                } else {
+                    SynchronousDispatcher dispatcher = new SynchronousDispatcher(resteasyProviderFactory, resourceMethodRegistry);
+                    deployment.setDispatcher(dispatcher);
+                }
 
                 deployment.start();
 

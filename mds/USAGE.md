@@ -7,7 +7,7 @@ Add the Maven dependency below to your Spring Boot application pom file.<br>
 <dependency>
    <groupId>com.paypal.springboot</groupId>
    <artifactId>resteasy-spring-boot-starter</artifactId>
-   <version>2.3.1-RELEASE</version>
+   <version>2.3.2-SNAPSHOT</version>
    <scope>runtime</scope>
 </dependency>
 ```
@@ -41,7 +41,7 @@ JAX-RS applications are defined via sub-classes of [Application](http://docs.ora
 
 1. By having them defined as Spring beans.
 2. By setting property `resteasy.jaxrs.app.classes` via Spring Boot configuration file (properties or YAML). This property should contain a comma separated list of JAX-RS sub-classes.
-3. Automatically by classpath scanning (looking for `javax.ws.rs.core.Application` sub-classes).
+3. Automatically by classpath scanning (looking for `javax.ws.rs.core.Application` sub-classes). **See important note number 6 about this method**.
 
 You can define the method you prefer by setting property `resteasy.jaxrs.app.registration` (via Spring Boot configuration file), although you don't have to, in that case the `auto` method is the default. The possible values are:
 
@@ -54,11 +54,12 @@ The first three values refer respectively to each one of the three methods descr
 
 __Important notes__
 
-1. If no JAX-RS application classes are found, a default one will be automatically created mapping to `/*` (_according to section 2.3.2 in the JAX-RS 2.0 specification_). Notice that, in this case, if you have any other Servlet in your application, their URL matching might conflict. For example, if you have SpringBoot actuator, its endpoints might not be reachable.
+1. If no JAX-RS application classes are found, a default one will be automatically created mapping to `/*` (_according to section 2.3.2 in the JAX-RS 2.0 specification_). Notice that, in this case, if you have any other Servlet in your application, their URL matching might conflict. For example, if you have Spring Boot actuator and its mapped to `/`, its endpoints might not be reachable.
 1. It is recommended to always have at least one JAX-RS application class.
 1. A JAX-RS application class with no `javax.ws.rs.ApplicationPath` annotation will not be registered.
-1. Avoid setting the JAX-RS application base URI to simply `/` to prevent URI conflicts, as explained in the first item.
+1. Avoid setting the JAX-RS application base URI to simply `/` to prevent URI conflicts, as explained in item 1.
 1. Property `resteasy.jaxrs.app` has been deprecated and replaced by `resteasy.jaxrs.app.classes` since version *2.2.0-RELEASE* (see [issue 35](https://github.com/paypal/resteasy-spring-boot/issues/35)). Property `resteasy.jaxrs.app` is going to be finally removed in version *3.0.0-RELEASE*.
+1. Starting on version 3.0.0, the behavior of the `scanning` JAX-RS Application subclass registration method will change, being more restrictive. Instead of scanning the whole classpath, it will scan only packages registered to be scanned by Spring framework (regardless of the JAX-RS Application subclass being a Spring bean or not). The reason is to improve application startup performance. Having said that, it is recommended that every application use any method, other than `scanning`. Or, if using `scanning`, make sure your JAX-RS Application subclass is under a package to be scanned by Spring framework. If not, starting on version 3.0.0,it won't be found.
 
 #### RESTEasy configuration
 RESTEasy offers a few configuration switches, [as seen here](http://docs.jboss.org/resteasy/docs/3.1.0.Final/userguide/html_single/index.html#configuration_switches), and they are set as Servlet context init parameters. In Spring Boot, Servlet context init parameters are defined via Spring Boot `application.properties` file, using the property prefix `server.context-parameters.*` (search for it in [Spring Boot reference guide](http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)).</br>

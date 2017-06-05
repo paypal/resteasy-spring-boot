@@ -18,6 +18,7 @@ Also, this RESTEasy Spring Boot starter integrates with Spring as expected, whic
 * Supports automatic discovery and registration of multiple [JAX-RS Application](http://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Application.html) classes as Spring beans
 * Supports optional registration of [JAX-RS Application](http://docs.oracle.com/javaee/7/api/javax/ws/rs/core/Application.html) classes via class-path scanning, or manually, via configuration properties (or YAML) file
 * Leverages and supports RESTEasy configuration
+* Supports RESTEasy Asynchronous Job Service
 
 ## Quick start
 
@@ -28,7 +29,7 @@ Add the Maven dependency below to your Spring Boot application pom file.<br>
 <dependency>
    <groupId>com.paypal.springboot</groupId>
    <artifactId>resteasy-spring-boot-starter</artifactId>
-   <version>2.3.1-RELEASE</version>
+   <version>2.3.2-RELEASE</version>
    <scope>runtime</scope>
 </dependency>
 ```

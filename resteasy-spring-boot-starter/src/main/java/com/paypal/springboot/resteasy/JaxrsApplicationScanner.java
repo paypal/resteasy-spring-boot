@@ -1,22 +1,20 @@
 package com.paypal.springboot.resteasy;
 
-import org.apache.commons.io.FilenameUtils;
-import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.util.ClasspathHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
+import org.springframework.core.type.filter.AssignableTypeFilter;
+import org.springframework.util.ClassUtils;
 
 import javax.ws.rs.core.Application;
-import java.io.File;
-import java.net.URL;
-import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
- * Helper class to scan the classpath searching for
- * JAX-RS Application sub-classes
+ * Helper class to scan the classpath under the specified packages
+ * searching for JAX-RS Application sub-classes
  *
  * @author Fabio Carvalho (facarvalho@paypal.com or fabiocarvalho777@gmail.com)
  */
@@ -26,58 +24,47 @@ public abstract class JaxrsApplicationScanner {
 
     private static Set<Class<? extends Application>> applications;
 
-    public static Set<Class<? extends Application>> getApplications() {
+    public static Set<Class<? extends Application>> getApplications(List<String> packagesToBeScanned) {
         if(applications == null) {
-            applications = findJaxrsApplicationClasses();
+            applications = findJaxrsApplicationClasses(packagesToBeScanned);
         }
 
         return applications;
     }
 
     /*
-     * Scan the classpath looking for JAX-RS Application sub-classes
+     * Scan the classpath under the specified packages looking for JAX-RS Application sub-classes
      */
-    private static Set<Class<? extends Application>> findJaxrsApplicationClasses() {
+    private static Set<Class<? extends Application>> findJaxrsApplicationClasses(List<String> packagesToBeScanned) {
         logger.info("Scanning classpath to find JAX-RS Application classes");
 
-        final Collection<URL> systemPropertyURLs = ClasspathHelper.forJavaClassPath();
-        final Collection<URL> classLoaderURLs = ClasspathHelper.forClassLoader();
+        ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
+        scanner.addIncludeFilter(new AssignableTypeFilter(Application.class));
 
-        Set<URL> classpathURLs = new HashSet<URL>();
+        Set<BeanDefinition> candidates = new HashSet<BeanDefinition>();
+        Set<BeanDefinition> candidatesSubSet;
 
-        copyValidClasspathEntries(systemPropertyURLs, classpathURLs);
-        copyValidClasspathEntries(classLoaderURLs, classpathURLs);
+        for (String packageToScan : packagesToBeScanned) {
+            candidatesSubSet = scanner.findCandidateComponents(packageToScan);
+            candidates.addAll(candidatesSubSet);
+        }
 
-        logger.debug("Classpath URLs to be scanned: " + classpathURLs);
-
-        Reflections reflections = new Reflections(classpathURLs, new SubTypesScanner());
-
-        return reflections.getSubTypesOf(Application.class);
-    }
-
-    /*
-     * Copy all entries that are a JAR file or a directory
-     */
-    private static void copyValidClasspathEntries(Collection<URL> source, Set<URL> destination) {
-        String fileName;
-        boolean isJarFile;
-        boolean isDirectory;
-
-        for (URL url : source) {
-            if(destination.contains(url)) {
-                continue;
-            }
-
-            fileName = url.getFile();
-            isJarFile = FilenameUtils.isExtension(fileName, "jar");
-            isDirectory = new File(fileName).isDirectory();
-
-            if (isJarFile || isDirectory) {
-                destination.add(url);
-            } else if (logger.isDebugEnabled()) {
-                logger.debug("Ignored classpath entry: " + fileName);
+        Set<Class<? extends Application>> classes = new HashSet<Class<? extends Application>>();
+        ClassLoader classLoader = JaxrsApplicationScanner.class.getClassLoader();
+        Class<? extends Application> type;
+        for (BeanDefinition candidate : candidates) {
+            try {
+                type = (Class<? extends Application>) ClassUtils.forName(candidate.getBeanClassName(), classLoader);
+                classes.add(type);
+            } catch (ClassNotFoundException e) {
+                logger.error("JAX-RS Application subclass could not be loaded", e);
             }
         }
+
+        // We don't want the JAX-RS Application class itself in there
+        classes.remove(Application.class);
+
+        return classes;
     }
 
 }

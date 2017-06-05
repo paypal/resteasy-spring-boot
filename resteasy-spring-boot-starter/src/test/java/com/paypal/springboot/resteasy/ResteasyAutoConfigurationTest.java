@@ -37,13 +37,23 @@ public class ResteasyAutoConfigurationTest {
     }
 
     @Test
-    public void resteasyBootstrapListener() {
+    public void syncDispatcherServletContextListenerTest() throws Exception {
+        ServletContext servletContext = new MockServletContext();
+        testServletContextListener(servletContext);
+    }
+
+    @Test
+    public void asyncDispatcherServletContextListenerTest() throws Exception {
+        ServletContext servletContext = new MockServletContext();
+        servletContext.setInitParameter("resteasy.async.job.service.enabled", "true");
+        testServletContextListener(servletContext);
+    }
+
+    private void testServletContextListener(ServletContext servletContext) throws Exception {
         ResteasyAutoConfiguration resteasyAutoConfiguration = new ResteasyAutoConfiguration();
         BeanFactoryPostProcessor beanFactoryPostProcessor = ResteasyAutoConfiguration.springBeanProcessor();
         ServletContextListener servletContextListener = resteasyAutoConfiguration.resteasyBootstrapListener(beanFactoryPostProcessor);
         Assert.assertNotNull(servletContextListener);
-
-        ServletContext servletContext = new MockServletContext();
 
         ServletContextEvent sce = new ServletContextEvent(servletContext);
         servletContextListener.contextInitialized(sce);
@@ -61,5 +71,6 @@ public class ResteasyAutoConfigurationTest {
         ServletContextListener servletContextListener2 = resteasyAutoConfiguration.resteasyBootstrapListener(beanFactoryPostProcessor);
         servletContextListener2.contextDestroyed(sce);
     }
+
 
 }
