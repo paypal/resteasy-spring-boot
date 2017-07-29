@@ -7,10 +7,10 @@ TBD
 
 #### Third-party versions
 - RESTEasy: TBD
-- Spring Boot: TBD
+- Spring Boot: 1.5.6.RELEASE
 
 #### New features and enhancements
-TBD
+1. [76 - Upgrade to Spring Boot version 1.5.6](https://github.com/paypal/resteasy-spring-boot/issues/76)
 
 #### Bug fixes
 TBD
