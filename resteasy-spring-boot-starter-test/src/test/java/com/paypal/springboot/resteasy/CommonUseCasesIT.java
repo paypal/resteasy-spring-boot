@@ -59,6 +59,15 @@ public class CommonUseCasesIT {
     }
 
     @Test
+    public void invalidNoPayloadTest() {
+        // Notice that the endpoint we are sending a request to uses Bean Validations to assure
+        // the request message payload is valid. If that is not the case (a blank payload for example),
+        // then the server is expected to return a 400 response message
+        Response response = given().body("").post("/echo");
+        response.then().statusCode(400).body(equalTo("[PARAMETER]\r[echo.arg0]\r[may not be empty]\r[]\r\r"));
+    }
+
+    @Test
     public void actuatorTest() throws InterruptedException {
         Response response = given().basePath("/").get("/health");
         response.then().statusCode(200).body("status", equalTo("UP"));
