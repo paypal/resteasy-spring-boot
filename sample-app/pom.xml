@@ -5,7 +5,7 @@
 
     <groupId>com.test</groupId>
     <artifactId>sample-app</artifactId>
-    <version>2.3.3-SNAPSHOT</version>
+    <version>2.3.3-RELEASE</version>
     <packaging>jar</packaging>
 
     <description>Simple test application for the Resteasy Spring Boot starter</description>

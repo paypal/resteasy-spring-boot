@@ -3,7 +3,7 @@
 ## 2.3.3-RELEASE
 
 #### Release date
-TBD
+August 1st, 2017.
 
 #### Third-party versions
 - RESTEasy: 3.1.4.Final
@@ -14,7 +14,7 @@ TBD
 1. [77 - Upgrade to RESTEasy version 3.1.4.Final](https://github.com/paypal/resteasy-spring-boot/issues/77)
 
 #### Bug fixes
-TBD
+None
 
 ## 2.3.2-RELEASE
 
