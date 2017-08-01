@@ -1,5 +1,20 @@
 # Release notes
 
+## 2.3.4-RELEASE
+
+#### Release date
+TBD
+
+#### Third-party versions
+- RESTEasy: TBD
+- Spring Boot: TBD
+
+#### New features and enhancements
+TBS
+
+#### Bug fixes
+TBD
+
 ## 2.3.3-RELEASE
 
 #### Release date

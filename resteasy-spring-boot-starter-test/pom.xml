@@ -5,7 +5,7 @@
 
     <groupId>com.paypal.springboot</groupId>
     <artifactId>resteasy-spring-boot-starter-test</artifactId>
-    <version>2.3.3-RELEASE</version>
+    <version>2.3.4-SNAPSHOT</version>
     <name>${project.artifactId}</name>
 
     <description>Integration test project for RESTEasy Spring Boot starter</description>
