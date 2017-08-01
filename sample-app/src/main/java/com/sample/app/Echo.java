@@ -9,6 +9,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 /**
  * Echo REST endpoint class
  *
@@ -33,7 +35,7 @@ public class Echo {
     @POST
     @Consumes({ MediaType.TEXT_PLAIN })
     @Produces({ MediaType.APPLICATION_JSON })
-    public EchoMessage echo(String echoText) {
+    public EchoMessage echo(@NotEmpty String echoText) {
         return echoer.createEchoMessage(echoText);
     }
 

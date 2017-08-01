@@ -52,7 +52,7 @@ public class AsyncJobIT {
         response.then().statusCode(202).body(isEmptyString());
 
         String location = response.getHeader("Location");
-        response = given().get(location + "?wait=50");
+        response = given().get(location + "?wait=1000");
         response.then().statusCode(200).body("timestamp", notNullValue()).body("echoText", equalTo("is there anybody out there?"));
     }
 
