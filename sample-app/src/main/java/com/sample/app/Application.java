@@ -7,7 +7,7 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 /**
  * SpringBoot entry point application
  *
- * Created by facarvalho on 12/7/15.
+ * @author Fabio Carvalho (facarvalho@paypal.com or fabiocarvalho777@gmail.com)
  */
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer {

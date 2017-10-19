@@ -4,7 +4,7 @@ package com.sample.app;
  * A simple echo message, containing the text to be echoed
  * and timestamp of the moment the message was created
  *
- * @author facarvalho
+ * @author Fabio Carvalho (facarvalho@paypal.com or fabiocarvalho777@gmail.com)
  */
 public class EchoMessage {
 
