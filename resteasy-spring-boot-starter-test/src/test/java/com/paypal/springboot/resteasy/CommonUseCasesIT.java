@@ -48,7 +48,7 @@ public class CommonUseCasesIT {
     public void invalidUriPathTest() {
         // Notice "eco" is supposed to result in 404
         Response response = given().body("is there anybody out there?").post("/eco");
-        response.then().statusCode(404).body(equalTo(""));
+        response.then().statusCode(404).body(equalTo("The resource you've requested, has not been found!"));
     }
 
     @Test
