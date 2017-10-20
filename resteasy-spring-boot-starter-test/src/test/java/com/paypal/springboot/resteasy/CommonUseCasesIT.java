@@ -45,6 +45,12 @@ public class CommonUseCasesIT {
     }
 
     @Test
+    public void filterTest() {
+        Response response = given().body("is there anybody out there?").header("ping", "ping").post("/echo");
+        response.then().statusCode(200).body("timestamp", notNullValue()).body("echoText", equalTo("is there anybody out there?")).header("pong", equalTo("pong"));
+    }
+
+    @Test
     public void invalidUriPathTest() {
         // Notice "eco" is supposed to result in 404
         Response response = given().body("is there anybody out there?").post("/eco");
