@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
  * This bean creates {@link EchoMessage} objects based on
  * echo texts received as input
  *
- * @author facarvalho
+ * @author Fabio Carvalho (facarvalho@paypal.com or fabiocarvalho777@gmail.com)
  */
 @Component
 public class EchoMessageCreator {

@@ -14,7 +14,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 /**
  * Echo REST endpoint class
  *
- * Created by facarvalho on 12/7/15.
+ * @author Fabio Carvalho (facarvalho@paypal.com or fabiocarvalho777@gmail.com)
  */
 @Path("/echo")
 @Component

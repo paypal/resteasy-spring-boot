@@ -1,0 +1,47 @@
+changes in develop branch
+    rev all 4 poms to release
+    update /README
+      set the new RELEASE version in Quick Start
+    update /mds/USAGE
+        set the new RELEASE version
+    update /mds/RELEASE_NOTES
+	    check if it has all contributions (improvements and fixes)
+	    set delivery date
+	    set 3rd party versions
+	build everything to make sure it is Ok
+    check in changes to develop branch (Revving up to version 2.1.0-RELEASE)
+merge all changes from develop branch to master (Bringing in 2.1.0 changes to master)
+
+checkout master branch
+git pull
+build everything to make sure it is Ok
+release from master
+    comment out cobertura plugin and cobertura reporting plugin in resteasy-spring-boot-starter/pom.xml (BUT NOT CHECK IT IN!)
+    deploy to MavenCentral(mvn clean install deploy -Possrh)
+    remove comment marks for cobertura plugin and cobertura reporting plugin
+	manual sonatype release
+	    Staging Repositories
+	    Close (the one with sources and everything)
+	    Release
+tag new release from master
+    git tag -a 2.1.0-RELEASE
+    git push origin 2.1.0-RELEASE
+
+Close GitHub Milestone that has just been released
+
+git checkout develop
+rev develop branch to next snapshot version
+    rev all 4 poms in to next snapshot version
+    build everything to make sure it is Ok
+    update /README
+      set the new SNAPSHOT version in Quick Start
+    update /mds/USAGE
+        set the new SNAPSHOT version
+    update /mds/RELEASE NOTES
+        create new version section by copying latest one
+	    set delivery date to TBD
+	    set third-parties to TBD
+        set contributions (improvements and fixes) to TBD
+    check in changes to develop branch (Preparing for version 2.1.1-SNAPSHOT)
+
+Create a new GitHub Milestone and assign issues to it (if any)
