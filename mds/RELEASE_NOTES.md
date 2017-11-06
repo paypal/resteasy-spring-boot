@@ -3,17 +3,17 @@
 ## 2.3.4-RELEASE
 
 #### Release date
-TBD
+November 6th, 2017.
 
 #### Third-party versions
-- RESTEasy: TBD
-- Spring Boot: TBD
+- RESTEasy: 3.1.4.Final
+- Spring Boot: 1.5.8.RELEASE
 
 #### New features and enhancements
-TBS
+1. [83 - Upgrade to Spring Boot version 1.5.8](https://github.com/paypal/resteasy-spring-boot/issues/83)
 
 #### Bug fixes
-TBD
+None
 
 ## 2.3.3-RELEASE
 
