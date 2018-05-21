@@ -6,6 +6,16 @@
 
 # RESTEasy Spring Boot Starter
 
+---
+
+**Important: this project has been transfered from PayPal team to RESTEasy team.**
+
+**All future versions are going to be managed and released from https://github.com/resteasy/resteasy-spring-boot.**
+
+**This Git repo will be kept here for historical purposes only.**
+
+---
+
 There was no RESTEasy Spring Boot starter out there, so PayPal team decided to create one and share it with the community.<br>
 
 This Spring Boot starter is fully functional, has ZERO PayPal specific code on it, and can be used normally by any regular Spring Boot application that wants to have REST endpoints and prefers RESTEasy as the JAX-RS implementation.
